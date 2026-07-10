@@ -1,0 +1,334 @@
+{
+  "generatedAt": "2026-07-10T16:49:00.635Z",
+  "stage": "etapa-1-modo-prueba",
+  "totalCandidates": 10,
+  "summary": {
+    "rejected": 10
+  },
+  "thresholds": {
+    "autoAssign": 90,
+    "manualReview": 70
+  },
+  "entries": [
+    {
+      "sku": "AN-001",
+      "name": "Ibuprofeno 600mg",
+      "brand": "I.S.A.",
+      "gtin": "7790040031088",
+      "presentation": "Caja x 30 comprimidos",
+      "controlado": false,
+      "source": {
+        "url": "https://www.farmatodo.com.ar/producto/300063847-ibu-ibuprofeno-600-mg-i-s-a-caja-x-30-comprimidos",
+        "domain": "farmatodo.com.ar",
+        "domainType": "distributor"
+      },
+      "matchSignals": {
+        "gtinExactMatch": false,
+        "nameSimilarity": 0.9,
+        "brandMatch": true,
+        "presentationMatch": true,
+        "sourceAuthority": "distributor",
+        "imageQuality": 0.8
+      },
+      "scoreBreakdown": {
+        "gtinExactMatch": 0,
+        "nameSimilarity": 18,
+        "brandMatch": 20,
+        "presentationMatch": 15,
+        "sourceAuthority": 6,
+        "imageQuality": 4
+      },
+      "confidenceScore": 63,
+      "status": "rejected",
+      "notes": "Coincidencia de presentación exacta ('Caja x 30 Comprimidos') en una farmacia online. No se encontró página oficial del fabricante con esta presentación puntual."
+    },
+    {
+      "sku": "AN-002",
+      "name": "Paracetamol 500mg",
+      "brand": "Raffo",
+      "gtin": "7790040031095",
+      "presentation": "Caja x 20 comprimidos",
+      "controlado": false,
+      "source": {
+        "url": "https://adium.com.ar/producto/paracetamol-raffo/",
+        "domain": "adium.com.ar",
+        "domainType": "manufacturer"
+      },
+      "matchSignals": {
+        "gtinExactMatch": false,
+        "nameSimilarity": 0.85,
+        "brandMatch": true,
+        "presentationMatch": true,
+        "sourceAuthority": "manufacturer",
+        "imageQuality": 0.95
+      },
+      "scoreBreakdown": {
+        "gtinExactMatch": 0,
+        "nameSimilarity": 17,
+        "brandMatch": 20,
+        "presentationMatch": 15,
+        "sourceAuthority": 10,
+        "imageQuality": 4.8
+      },
+      "confidenceScore": 67,
+      "status": "rejected",
+      "notes": "adium.com.ar es el sitio oficial de Laboratorios Raffo. La presentación x20 se confirmó de forma cruzada en un distribuidor (Farmacias Villegas); la página oficial no especifica el conteo exacto por caja."
+    },
+    {
+      "sku": "AN-003",
+      "name": "Diclofenac Sódico 75mg",
+      "brand": "Quim-Far",
+      "gtin": "7790040031101",
+      "presentation": "Caja x 10 ampollas",
+      "controlado": false,
+      "source": {
+        "url": "https://quimfar.com/producto/diclofenac-sodico-dolfenac-75mg-3ml-solucion-inyectable/",
+        "domain": "quimfar.com",
+        "domainType": "manufacturer"
+      },
+      "matchSignals": {
+        "gtinExactMatch": false,
+        "nameSimilarity": 0.8,
+        "brandMatch": true,
+        "presentationMatch": true,
+        "sourceAuthority": "manufacturer",
+        "imageQuality": 0.75
+      },
+      "scoreBreakdown": {
+        "gtinExactMatch": 0,
+        "nameSimilarity": 16,
+        "brandMatch": 20,
+        "presentationMatch": 15,
+        "sourceAuthority": 10,
+        "imageQuality": 3.8
+      },
+      "confidenceScore": 65,
+      "status": "rejected",
+      "notes": "Quim-Far (Dolfenac) confirma envases de 5, 10 y 25 ampollas — la presentación x10 coincide."
+    },
+    {
+      "sku": "AN-004",
+      "name": "Tramadol Clorhidrato 50mg",
+      "brand": "Raffo",
+      "gtin": "7790040031118",
+      "presentation": "Caja x 10 comprimidos",
+      "controlado": true,
+      "source": {
+        "url": "https://adium.com.ar/producto/ultragesic-cb/",
+        "domain": "adium.com.ar",
+        "domainType": "manufacturer"
+      },
+      "matchSignals": {
+        "gtinExactMatch": false,
+        "nameSimilarity": 0.85,
+        "brandMatch": true,
+        "presentationMatch": false,
+        "sourceAuthority": "manufacturer",
+        "imageQuality": 0.9
+      },
+      "scoreBreakdown": {
+        "gtinExactMatch": 0,
+        "nameSimilarity": 17,
+        "brandMatch": 20,
+        "presentationMatch": 0,
+        "sourceAuthority": 10,
+        "imageQuality": 4.5
+      },
+      "confidenceScore": 52,
+      "status": "rejected",
+      "notes": "Página oficial de Raffo (Ultragesic CB) no especifica el conteo de comprimidos por caja; no se pudo confirmar 'x10'. Además es producto controlado: independientemente del puntaje, la regla de negocio exige revisión humana obligatoria."
+    },
+    {
+      "sku": "AB-001",
+      "name": "Amoxicilina 500mg",
+      "brand": "Roemmers",
+      "gtin": "7790040032009",
+      "presentation": "Caja x 21 comprimidos",
+      "controlado": false,
+      "source": {
+        "url": "https://roemmers.com.ar/producto/amoxidal/",
+        "domain": "roemmers.com.ar",
+        "domainType": "manufacturer"
+      },
+      "matchSignals": {
+        "gtinExactMatch": false,
+        "nameSimilarity": 0.9,
+        "brandMatch": true,
+        "presentationMatch": true,
+        "sourceAuthority": "manufacturer",
+        "imageQuality": 0.95
+      },
+      "scoreBreakdown": {
+        "gtinExactMatch": 0,
+        "nameSimilarity": 18,
+        "brandMatch": 20,
+        "presentationMatch": 15,
+        "sourceAuthority": 10,
+        "imageQuality": 4.8
+      },
+      "confidenceScore": 68,
+      "status": "rejected",
+      "notes": "Coincidencia fuerte: Roemmers oficial + un distribuidor (Farmatodo) confirma 'Caja x 21 Comprimidos' exacto. El candidato con mejor puntaje de los 10, pero igual queda 2 puntos por debajo del piso de revisión manual por no poder confirmar el GTIN."
+    },
+    {
+      "sku": "AB-002",
+      "name": "Azitromicina 500mg",
+      "brand": "Raffo",
+      "gtin": "7790040032016",
+      "presentation": "Caja x 3 comprimidos",
+      "controlado": false,
+      "source": {
+        "url": "https://adium.com.ar/producto/doyle/",
+        "domain": "adium.com.ar",
+        "domainType": "manufacturer"
+      },
+      "matchSignals": {
+        "gtinExactMatch": false,
+        "nameSimilarity": 0.85,
+        "brandMatch": true,
+        "presentationMatch": false,
+        "sourceAuthority": "manufacturer",
+        "imageQuality": 0.85
+      },
+      "scoreBreakdown": {
+        "gtinExactMatch": 0,
+        "nameSimilarity": 17,
+        "brandMatch": 20,
+        "presentationMatch": 0,
+        "sourceAuthority": 10,
+        "imageQuality": 4.3
+      },
+      "confidenceScore": 51,
+      "status": "rejected",
+      "notes": "DOYLE (Raffo) existe en versiones de 500mg y 600mg; la página general no confirma la presentación puntual de 3 comprimidos."
+    },
+    {
+      "sku": "AB-003",
+      "name": "Cefalexina 500mg",
+      "brand": "Roemmers",
+      "gtin": "7790040032023",
+      "presentation": "Caja x 16 comprimidos",
+      "controlado": false,
+      "source": {
+        "url": "https://roemmers.com.ar/producto/ceporexin/",
+        "domain": "roemmers.com.ar",
+        "domainType": "manufacturer"
+      },
+      "matchSignals": {
+        "gtinExactMatch": false,
+        "nameSimilarity": 0.85,
+        "brandMatch": true,
+        "presentationMatch": true,
+        "sourceAuthority": "manufacturer",
+        "imageQuality": 0.9
+      },
+      "scoreBreakdown": {
+        "gtinExactMatch": 0,
+        "nameSimilarity": 17,
+        "brandMatch": 20,
+        "presentationMatch": 15,
+        "sourceAuthority": 10,
+        "imageQuality": 4.5
+      },
+      "confidenceScore": 67,
+      "status": "rejected",
+      "notes": "Ceporexin (Roemmers) en presentación de 16 comprimidos coincide exacto con el catálogo."
+    },
+    {
+      "sku": "AS-001",
+      "name": "Alcohol en Gel 70%",
+      "brand": "Victory Limpieza",
+      "gtin": "7790040033006",
+      "presentation": "Bidón x 5 litros",
+      "controlado": false,
+      "source": {
+        "url": "https://www.victorylimpieza.com.ar/productos-1056-institucional-mas.html",
+        "domain": "victorylimpieza.com.ar",
+        "domainType": "manufacturer"
+      },
+      "matchSignals": {
+        "gtinExactMatch": false,
+        "nameSimilarity": 0.75,
+        "brandMatch": true,
+        "presentationMatch": true,
+        "sourceAuthority": "manufacturer",
+        "imageQuality": 0.7
+      },
+      "scoreBreakdown": {
+        "gtinExactMatch": 0,
+        "nameSimilarity": 15,
+        "brandMatch": 20,
+        "presentationMatch": 15,
+        "sourceAuthority": 10,
+        "imageQuality": 3.5
+      },
+      "confidenceScore": 64,
+      "status": "rejected",
+      "notes": "Fabricante directo de alcohol en gel para uso institucional; confirma bidones de 5 y 10 litros."
+    },
+    {
+      "sku": "AS-002",
+      "name": "Alcohol Etílico 96°",
+      "brand": "Bialcohol",
+      "gtin": "7790040033013",
+      "presentation": "Botella x 1 litro",
+      "controlado": false,
+      "source": {
+        "url": "https://www.bialcohol.com.ar/alcohol/alchol-al-96/",
+        "domain": "bialcohol.com.ar",
+        "domainType": "manufacturer"
+      },
+      "matchSignals": {
+        "gtinExactMatch": false,
+        "nameSimilarity": 0.85,
+        "brandMatch": true,
+        "presentationMatch": true,
+        "sourceAuthority": "manufacturer",
+        "imageQuality": 0.75
+      },
+      "scoreBreakdown": {
+        "gtinExactMatch": 0,
+        "nameSimilarity": 17,
+        "brandMatch": 20,
+        "presentationMatch": 15,
+        "sourceAuthority": 10,
+        "imageQuality": 3.8
+      },
+      "confidenceScore": 66,
+      "status": "rejected",
+      "notes": "Fabricante directo; la presentación de 1 litro se confirmó también en distribuidores que revenden la marca."
+    },
+    {
+      "sku": "AS-003",
+      "name": "Gasas Estériles 10x10cm",
+      "brand": "Gasana",
+      "gtin": "7790040033020",
+      "presentation": "Sobre x 25 unidades",
+      "controlado": false,
+      "source": {
+        "url": "https://www.insumosodontologicosweb.com.ar/productos/gasas-esteriles-en-sobres-10x10cm-320-gasas-hidrogasa/",
+        "domain": "insumosodontologicosweb.com.ar",
+        "domainType": "distributor"
+      },
+      "matchSignals": {
+        "gtinExactMatch": false,
+        "nameSimilarity": 0.7,
+        "brandMatch": true,
+        "presentationMatch": false,
+        "sourceAuthority": "distributor",
+        "imageQuality": 0.6
+      },
+      "scoreBreakdown": {
+        "gtinExactMatch": 0,
+        "nameSimilarity": 14,
+        "brandMatch": 20,
+        "presentationMatch": 0,
+        "sourceAuthority": 6,
+        "imageQuality": 3
+      },
+      "confidenceScore": 43,
+      "status": "rejected",
+      "notes": "Ninguna fuente encontrada confirma la presentación exacta 'sobre x 25 unidades' — las variantes reales encontradas son de x10, x16 o cajas de 320 unidades."
+    }
+  ]
+}

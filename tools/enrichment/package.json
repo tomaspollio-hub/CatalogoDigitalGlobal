@@ -1,0 +1,10 @@
+{
+  "name": "catalogo-enrichment",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Modulo de enriquecimiento de catalogo (busqueda y validacion de imagenes de producto). No forma parte del sitio publico.",
+  "type": "module",
+  "scripts": {
+    "test:etapa1": "node run-test.js"
+  }
+}

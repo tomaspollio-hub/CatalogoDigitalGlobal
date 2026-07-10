@@ -1,0 +1,702 @@
+[
+  {
+    "sku": "A88856581",
+    "rawName": "BENADRYL  CAPS X 30",
+    "rawFamilia": "ANTIHISTAMINICO",
+    "cleanName": "Benadryl Caps X 30",
+    "cleanCategory": "Antigripales y Antialérgicos"
+  },
+  {
+    "sku": "A88818235",
+    "rawName": "LISFAR BOTIQUIN 1OS AUXILIOS",
+    "rawFamilia": "BOTIQUIN DE 1 ROS AUXILIOS",
+    "cleanName": "Lisfar Botiquin 1Os Auxilios",
+    "cleanCategory": "Primeros Auxilios"
+  },
+  {
+    "sku": "A50033715",
+    "rawName": "BENGUE DESINFLAM PDA X220G",
+    "rawFamilia": "ANTIINFLAMATORIO TOPICO",
+    "cleanName": "Bengue Desinflam Pda X220G",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "f00003972",
+    "rawName": "GUANTES NITRILO M X100",
+    "rawFamilia": "GUANTE DE CIRUGIA",
+    "cleanName": "Guantes Nitrilo M X100",
+    "cleanCategory": "Insumos Descartables"
+  },
+  {
+    "sku": "A99905419",
+    "rawName": "EUMICEL 2% SHAMP X 100 ML",
+    "rawFamilia": "ANTIMICOTICO TOPICO",
+    "cleanName": "Eumicel 2% Shamp X 100 Ml",
+    "cleanCategory": "Otros Medicamentos"
+  },
+  {
+    "sku": "A88983367",
+    "rawName": "REDOXITOS FR MAST X25 GOMITAS",
+    "rawFamilia": "VITAMINICO",
+    "cleanName": "Redoxitos Fr Mast X25 Gomitas",
+    "cleanCategory": "Vitaminas y Suplementos"
+  },
+  {
+    "sku": "A88813062",
+    "rawName": "BLOKIUM  75 MG AMP X 3 X 3ML",
+    "rawFamilia": "ANALGESICO ANTIINFLAMATORIO",
+    "cleanName": "Blokium 75 Mg Amp X 3 X 3Ml",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A88930515",
+    "rawName": "LOCERYL LACA P/UÑAS X 5   ML",
+    "rawFamilia": "ANTIMICOTICO",
+    "cleanName": "Loceryl Laca P/Uñas X 5 Ml",
+    "cleanCategory": "Otros Medicamentos"
+  },
+  {
+    "sku": "A88819335",
+    "rawName": "NATUFARMA NATULAX P COMP X 40",
+    "rawFamilia": "LAXANTE",
+    "cleanName": "Natufarma Natulax P Comp X 40",
+    "cleanCategory": "Digestivo"
+  },
+  {
+    "sku": "A04306601",
+    "rawName": "MICORAL  COMP X 10",
+    "rawFamilia": "ANTIMICOTICO",
+    "cleanName": "Micoral Comp X 10",
+    "cleanCategory": "Otros Medicamentos"
+  },
+  {
+    "sku": "A88998011",
+    "rawName": "PERVINOX ANESTESICO SPRAY X40",
+    "rawFamilia": "ANTISEPTICO ANESTESICO",
+    "cleanName": "Pervinox Anestesico Spray X40",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A50015968",
+    "rawName": "BAND.AID APOS SKIN FLEX B X20",
+    "rawFamilia": "APOSITO",
+    "cleanName": "Band.Aid Apos Skin Flex B X20",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A99903287",
+    "rawName": "TOBREX GTS OFT X  5 ML",
+    "rawFamilia": "ANTIBIOTICO OFTALMICO",
+    "cleanName": "Tobrex Gts Oft X 5 Ml",
+    "cleanCategory": "Antibióticos"
+  },
+  {
+    "sku": "A88967914",
+    "rawName": "DROGAL AGUA OXIG 10V    X 100",
+    "rawFamilia": "AGUA OXIGENADA (FARMACIA)",
+    "cleanName": "Drogal Agua Oxig 10V X 100",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A01001003",
+    "rawName": "CEFACAR  500 MG COMP X 16",
+    "rawFamilia": "ANTIBIOTICO",
+    "cleanName": "Cefacar 500 Mg Comp X 16",
+    "cleanCategory": "Antibióticos"
+  },
+  {
+    "sku": "A04204011",
+    "rawName": "BLOKIUM FLEX COMP X 15",
+    "rawFamilia": "ANTIINFLAMATORIO MIORRELAJANTE",
+    "cleanName": "Blokium Flex Comp X 15",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A04202701",
+    "rawName": "ERNEX  LIQ X 120 ML",
+    "rawFamilia": "ANALGESICO TOPICO ANTIINFLAMATORIO",
+    "cleanName": "Ernex Liq X 120 Ml",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A50051051",
+    "rawName": "SERTAL CTO VL COMP X  20",
+    "rawFamilia": "ANALGESICO ANTIESPASMODICO",
+    "cleanName": "Sertal Cto Vl Comp X 20",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A05200106",
+    "rawName": "GASANA APQU 20X20 CM",
+    "rawFamilia": "APOSITO QUIRURGICO",
+    "cleanName": "Gasana Apqu 20X20 Cm",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A89006407",
+    "rawName": "CITIZEN TENSIOM DIG A CHUD514",
+    "rawFamilia": "TENSIOMETRO DIGITAL",
+    "cleanName": "Citizen Tensiom Dig A Chud514",
+    "cleanCategory": "Equipamiento Médico"
+  },
+  {
+    "sku": "A02050101",
+    "rawName": "DIOXAFLEX B12 COMP X 20",
+    "rawFamilia": "ANTIINFLAMATORIO ANTINEURITICO",
+    "cleanName": "Dioxaflex B12 Comp X 20",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A50008028",
+    "rawName": "AVENGERS SPID SANIT/HOLD  X30",
+    "rawFamilia": "ALCOHOL",
+    "cleanName": "Avengers Spid Sanit/Hold X30",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A88823558",
+    "rawName": "PULMOSAN FTE JBE X 120 ML",
+    "rawFamilia": "EXPECTORANTE MUCOLITICO",
+    "cleanName": "Pulmosan Fte Jbe X 120 Ml",
+    "cleanCategory": "Antigripales y Antialérgicos"
+  },
+  {
+    "sku": "A88932199",
+    "rawName": "DIOXAFLEX CB 75 MG CAPS X 30",
+    "rawFamilia": "ANALGESICO ANTIINFLAMATORIO",
+    "cleanName": "Dioxaflex Cb 75 Mg Caps X 30",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A50012341",
+    "rawName": "GASANA VENDA CAM X 15 CM GRAN",
+    "rawFamilia": "VENDA",
+    "cleanName": "Gasana Venda Cam X 15 Cm Gran",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A88845774",
+    "rawName": "CIRIAX OTIC L GTS X 5ML",
+    "rawFamilia": "ANTIBIOTICO ANTIINFLAM ANESTESICO",
+    "cleanName": "Ciriax Otic L Gts X 5Ml",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A18904913",
+    "rawName": "PERVINOX JAB SOLID X 100 G",
+    "rawFamilia": "ANTISEPTICO",
+    "cleanName": "Pervinox Jab Solid X 100 G",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A88983306",
+    "rawName": "PERVINOX CLORHEX SOL X200ML",
+    "rawFamilia": "ANTISEPTICO",
+    "cleanName": "Pervinox Clorhex Sol X200Ml",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A88915197",
+    "rawName": "ALERNIX 24 R/ACC CP X10",
+    "rawFamilia": "ANTIALERGICO",
+    "cleanName": "Alernix 24 R/Acc Cp X10",
+    "cleanCategory": "Antigripales y Antialérgicos"
+  },
+  {
+    "sku": "A88970010",
+    "rawName": "CORONET OXIMETRO DE PUL POD-2",
+    "rawFamilia": "OXIMETRO DE PULSO",
+    "cleanName": "Coronet Oximetro De Pul Pod-2",
+    "cleanCategory": "Equipamiento Médico"
+  },
+  {
+    "sku": "A50018400",
+    "rawName": "CARAMELOS ANTIB FECOF.FR.ROX9",
+    "rawFamilia": "ANTIBIOTICO ANESTESICO BUCOFARING",
+    "cleanName": "Caramelos Antib Fecof.Fr.Rox9",
+    "cleanCategory": "Antibióticos"
+  },
+  {
+    "sku": "A88822747",
+    "rawName": "MINICAM 2 MG COMP X  10",
+    "rawFamilia": "ANTIDIARREICO",
+    "cleanName": "Minicam 2 Mg Comp X 10",
+    "cleanCategory": "Digestivo"
+  },
+  {
+    "sku": "f00003875",
+    "rawName": "DIPIRONA AMP 1G 5ML X 1",
+    "rawFamilia": "ANALGESICO ANTIFEBRIL",
+    "cleanName": "Dipirona Amp 1G 5Ml X 1",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A05200306",
+    "rawName": "GASANA GA N5 CAJA  15 X15",
+    "rawFamilia": "GASA",
+    "cleanName": "Gasana Ga N5 Caja 15 X15",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A88943887",
+    "rawName": "HIPOGLOS HIDROCORT PDA X 15 G",
+    "rawFamilia": "ANTIINFLAMATORIO",
+    "cleanName": "Hipoglos Hidrocort Pda X 15 G",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A88929912",
+    "rawName": "ALIKAL SOB X30",
+    "rawFamilia": "ANTIACIDO",
+    "cleanName": "Alikal Sob X30",
+    "cleanCategory": "Digestivo"
+  },
+  {
+    "sku": "A88839156",
+    "rawName": "DARZITIL 1000 MG COMP X  16",
+    "rawFamilia": "ANTIBIOTICO",
+    "cleanName": "Darzitil 1000 Mg Comp X 16",
+    "cleanCategory": "Antibióticos"
+  },
+  {
+    "sku": "A88926095",
+    "rawName": "SOMIT  5 MG COMP X 30",
+    "rawFamilia": "HIPNOTICO NO BENZODIAZEPINICO",
+    "cleanName": "Somit 5 Mg Comp X 30",
+    "cleanCategory": "Otros Medicamentos"
+  },
+  {
+    "sku": "A50002909",
+    "rawName": "SERRAPEP CAPS GASTRORRES X 30",
+    "rawFamilia": "ANTIINFLAMATORIO",
+    "cleanName": "Serrapep Caps Gastrorres X 30",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "F00004776",
+    "rawName": "MIDAZOLAM 15MG AMP X 1U ",
+    "rawFamilia": "HIPNOTICO",
+    "cleanName": "Midazolam 15Mg Amp X 1U",
+    "cleanCategory": "Otros Medicamentos"
+  },
+  {
+    "sku": "A88959346",
+    "rawName": "TUKOL FORTE JBE X 150 ML",
+    "rawFamilia": "EXPECTORANTE MUCOLITICO",
+    "cleanName": "Tukol Forte Jbe X 150 Ml",
+    "cleanCategory": "Antigripales y Antialérgicos"
+  },
+  {
+    "sku": "A09214801",
+    "rawName": "LETONDAL COMP X 10",
+    "rawFamilia": "ANALGESICO DESCONGESTIVO",
+    "cleanName": "Letondal Comp X 10",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A88891544",
+    "rawName": "TABLADA AGUA OXIG 10V X100F/G",
+    "rawFamilia": "AGUA OXIGENADA (FARMACIA)",
+    "cleanName": "Tablada Agua Oxig 10V X100F/G",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A88816647",
+    "rawName": "BANDER ELAST FLEBO  7CMX3.0MT",
+    "rawFamilia": "VENDA P/PIE",
+    "cleanName": "Bander Elast Flebo 7Cmx3.0Mt",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A88926341",
+    "rawName": "TROKEN 75 MG COMP X 30",
+    "rawFamilia": "ANTITROMBOTICO",
+    "cleanName": "Troken 75 Mg Comp X 30",
+    "cleanCategory": "Otros Medicamentos"
+  },
+  {
+    "sku": "F00002125",
+    "rawName": "SYRA VEND CAMBR ORIG 5CM X1F",
+    "rawFamilia": "VENDA",
+    "cleanName": "Syra Vend Cambr Orig 5Cm X1F",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A88959216",
+    "rawName": "PARACETAMOL RAFFO 1G    CMX10",
+    "rawFamilia": "ANALGESICO ANTIFEBRIL",
+    "cleanName": "Paracetamol Raffo 1G Cmx10",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A88882511",
+    "rawName": "IM 75 F-AMP X 3 X 2 ML",
+    "rawFamilia": "ANTIINFLAMATORIO",
+    "cleanName": "Im 75 F-Amp X 3 X 2 Ml",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A31000403",
+    "rawName": "DAFLON  500 MG COMP X 30",
+    "rawFamilia": "FLEBOTONICO ANTIHEMORROIDAL",
+    "cleanName": "Daflon 500 Mg Comp X 30",
+    "cleanCategory": "Otros Medicamentos"
+  },
+  {
+    "sku": "f00003970",
+    "rawName": "GUANTES LATEX EXAM L X100",
+    "rawFamilia": "GUANTE DE CIRUGIA",
+    "cleanName": "Guantes Latex Exam L X100",
+    "cleanCategory": "Insumos Descartables"
+  },
+  {
+    "sku": "A99906143",
+    "rawName": "TABLADA AGUA OXIG 10V   X250",
+    "rawFamilia": "AGUA OXIGENADA (FARMACIA)",
+    "cleanName": "Tablada Agua Oxig 10V X250",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A50052126",
+    "rawName": "SERTAL CTO VL COMP X  10",
+    "rawFamilia": "ANALGESICO ANTIESPASMODICO",
+    "cleanName": "Sertal Cto Vl Comp X 10",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A20200402",
+    "rawName": "ANGINOTRAT  COMP X 20",
+    "rawFamilia": "ANTIBIOTICO ANESTESICO BUCOFARING",
+    "cleanName": "Anginotrat Comp X 20",
+    "cleanCategory": "Antibióticos"
+  },
+  {
+    "sku": "A89003793",
+    "rawName": "SILFAB OXIM PULSO STAN 300 CN",
+    "rawFamilia": "OXIMETRO DE PULSO",
+    "cleanName": "Silfab Oxim Pulso Stan 300 Cn",
+    "cleanCategory": "Equipamiento Médico"
+  },
+  {
+    "sku": "A99904414",
+    "rawName": "RINO-B NEBU GTS X 20 ML",
+    "rawFamilia": "DESCONGESTIVO NASAL",
+    "cleanName": "Rino-B Nebu Gts X 20 Ml",
+    "cleanCategory": "Antigripales y Antialérgicos"
+  },
+  {
+    "sku": "A88930517",
+    "rawName": "DECADRON  0.5 MG COMP X 30",
+    "rawFamilia": "CORTICOSTEROIDE",
+    "cleanName": "Decadron 0.5 Mg Comp X 30",
+    "cleanCategory": "Otros Medicamentos"
+  },
+  {
+    "sku": "A88814066",
+    "rawName": "EMPECID PIE POMO X 15 G",
+    "rawFamilia": "ANTIMICOTICO TOPICO",
+    "cleanName": "Empecid Pie Pomo X 15 G",
+    "cleanCategory": "Otros Medicamentos"
+  },
+  {
+    "sku": "A50021562",
+    "rawName": "ATOM-PROTECT TAPABOCA U.BLKX1",
+    "rawFamilia": "BARBIJO",
+    "cleanName": "Atom-Protect Tapaboca U.Blkx1",
+    "cleanCategory": "Insumos Descartables"
+  },
+  {
+    "sku": "A88817392",
+    "rawName": "DECADRON AL F-AMP X2ML+JGA+AG",
+    "rawFamilia": "CORTICOSTEROIDE",
+    "cleanName": "Decadron Al F-Amp X2Ml+Jga+Ag",
+    "cleanCategory": "Otros Medicamentos"
+  },
+  {
+    "sku": "A50015535",
+    "rawName": "ION-POSITIVO BARBIJO BLACKX 3",
+    "rawFamilia": "BARBIJO",
+    "cleanName": "Ion-Positivo Barbijo Blackx 3",
+    "cleanCategory": "Insumos Descartables"
+  },
+  {
+    "sku": "A28300073",
+    "rawName": "ACEMUK 600 MG TAB EFER X 10",
+    "rawFamilia": "MUCOLITICO",
+    "cleanName": "Acemuk 600 Mg Tab Efer X 10",
+    "cleanCategory": "Antigripales y Antialérgicos"
+  },
+  {
+    "sku": "A88931845",
+    "rawName": "MYLANTA  II  COMP X 30",
+    "rawFamilia": "ANTIACIDO ANTIFLATULENTO",
+    "cleanName": "Mylanta Ii Comp X 30",
+    "cleanCategory": "Digestivo"
+  },
+  {
+    "sku": "A50030713",
+    "rawName": "DEXALERGIN CORT 50MCG NASX120",
+    "rawFamilia": "ANTIALERGICO ANTIINFLAMATORIO",
+    "cleanName": "Dexalergin Cort 50Mcg Nasx120",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A88858780",
+    "rawName": "FEBRATIC 4%  SUSP X 100 ML",
+    "rawFamilia": "ANALGESICO ANTIINFLAMATORIO",
+    "cleanName": "Febratic 4% Susp X 100 Ml",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A88971954",
+    "rawName": "BLOKIUM B12 IM INY X 3",
+    "rawFamilia": "ANTIINFLAMATORIO ANTINEURITICO",
+    "cleanName": "Blokium B12 Im Iny X 3",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A50009207",
+    "rawName": "POLEX UNG OFT ESTERIL X 3.5G",
+    "rawFamilia": "ANTIBIOTICO ANTIINFLAMATORIO",
+    "cleanName": "Polex Ung Oft Esteril X 3.5G",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A88868546",
+    "rawName": "DARZITIL PLUS DUO JBE X 70ML",
+    "rawFamilia": "ANTIBIOTICO",
+    "cleanName": "Darzitil Plus Duo Jbe X 70Ml",
+    "cleanCategory": "Antibióticos"
+  },
+  {
+    "sku": "A77703030",
+    "rawName": "CETIZINE 10 MG COMP X 20",
+    "rawFamilia": "ANTIALERGICO ANTIHISTAMINICO",
+    "cleanName": "Cetizine 10 Mg Comp X 20",
+    "cleanCategory": "Antigripales y Antialérgicos"
+  },
+  {
+    "sku": "A88898365",
+    "rawName": "BENGUE ULTRA GEL X 35 G",
+    "rawFamilia": "ANTIINFLAMATORIO TOPICO",
+    "cleanName": "Bengue Ultra Gel X 35 G",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A05200101",
+    "rawName": "GASANA APQU  7X20 CM",
+    "rawFamilia": "APOSITO QUIRURGICO",
+    "cleanName": "Gasana Apqu 7X20 Cm",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A88946386",
+    "rawName": "FLUORESCEINA POEN 0.25% GTSX5",
+    "rawFamilia": "MEDIO DE DIAGNOSTICO",
+    "cleanName": "Fluoresceina Poen 0.25% Gtsx5",
+    "cleanCategory": "Equipamiento Médico"
+  },
+  {
+    "sku": "A88903835",
+    "rawName": "GASANA APOS POST/PARTO ESTX10",
+    "rawFamilia": "APOSITO POST PARTO",
+    "cleanName": "Gasana Apos Post/Parto Estx10",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A88931844",
+    "rawName": "BENADRYL  JBE X 240 ML",
+    "rawFamilia": "ANTIHISTAMINICO",
+    "cleanName": "Benadryl Jbe X 240 Ml",
+    "cleanCategory": "Antigripales y Antialérgicos"
+  },
+  {
+    "sku": "A88959077",
+    "rawName": "CITIZEN TERMOMETRO CLINIC DIG",
+    "rawFamilia": "TERMOMETRO DIGITAL",
+    "cleanName": "Citizen Termometro Clinic Dig",
+    "cleanCategory": "Equipamiento Médico"
+  },
+  {
+    "sku": "A50014194",
+    "rawName": "BIALCOHOL ALC 70% DES   X1000",
+    "rawFamilia": "ALCOHOL",
+    "cleanName": "Bialcohol Alc 70% Des X1000",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A17612205",
+    "rawName": "HISTAMINO CORTEROID L COMPX20",
+    "rawFamilia": "ANTIALERGICO",
+    "cleanName": "Histamino Corteroid L Compx20",
+    "cleanCategory": "Antigripales y Antialérgicos"
+  },
+  {
+    "sku": "F00006935",
+    "rawName": "TENSIOMETRO BRAZO ANEROIDE OBE",
+    "rawFamilia": "TENSIOMETRO MANUAL",
+    "cleanName": "Tensiometro Brazo Aneroide Obe",
+    "cleanCategory": "Equipamiento Médico"
+  },
+  {
+    "sku": "A88932027",
+    "rawName": "ALIKAL LIMON SOB X30",
+    "rawFamilia": "ANTIACIDO",
+    "cleanName": "Alikal Limon Sob X30",
+    "cleanCategory": "Digestivo"
+  },
+  {
+    "sku": "A88996530",
+    "rawName": "OMRON BRAZAL HEM 7320",
+    "rawFamilia": "TENSIOMETRO (ACCESORIO)",
+    "cleanName": "Omron Brazal Hem 7320",
+    "cleanCategory": "Equipamiento Médico"
+  },
+  {
+    "sku": "A50028235",
+    "rawName": "CURITAS APOS SENSITIVE   X20U",
+    "rawFamilia": "APOSITO",
+    "cleanName": "Curitas Apos Sensitive X20U",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A99906152",
+    "rawName": "TABLADA AGUA OXIG 10V   X500",
+    "rawFamilia": "AGUA OXIGENADA (FARMACIA)",
+    "cleanName": "Tablada Agua Oxig 10V X500",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A50011360",
+    "rawName": "GASANA VENDA CAM X 7CMX3MX12U",
+    "rawFamilia": "VENDA",
+    "cleanName": "Gasana Venda Cam X 7Cmx3Mx12U",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A00400223",
+    "rawName": "TOBRADEX UNG OFT X 3.5 G",
+    "rawFamilia": "ANTIBIOTICO ANTIINFLAMATORIO",
+    "cleanName": "Tobradex Ung Oft X 3.5 G",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A88953156",
+    "rawName": "BANDER SPRAY FRIO   X 240CC",
+    "rawFamilia": "ANALGESICO REFRIGERANTE",
+    "cleanName": "Bander Spray Frio X 240Cc",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A50005232",
+    "rawName": "BLUE-VIT B12 CM MAST ANANAX20",
+    "rawFamilia": "VITAMINICO",
+    "cleanName": "Blue-Vit B12 Cm Mast Ananax20",
+    "cleanCategory": "Vitaminas y Suplementos"
+  },
+  {
+    "sku": "A89003016",
+    "rawName": "SUPRADYN EFERV COMP X 30",
+    "rawFamilia": "POLIVITAMINICO POLIMINERAL",
+    "cleanName": "Supradyn Eferv Comp X 30",
+    "cleanCategory": "Vitaminas y Suplementos"
+  },
+  {
+    "sku": "A21708003",
+    "rawName": "SERTAL CTO NF INY  X  3",
+    "rawFamilia": "ANALGESICO ANTIESPASMODICO",
+    "cleanName": "Sertal Cto Nf Iny X 3",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A88956105",
+    "rawName": "BAYASPIRINA   COMP X  30",
+    "rawFamilia": "ANALGESICO ANTIFEBRIL",
+    "cleanName": "Bayaspirina Comp X 30",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A19700206",
+    "rawName": "POENBIOPTAL NF COLI X 5 CC",
+    "rawFamilia": "ANTIBIOTICO DESCONGESTIVO",
+    "cleanName": "Poenbioptal Nf Coli X 5 Cc",
+    "cleanCategory": "Antibióticos"
+  },
+  {
+    "sku": "F00006432",
+    "rawName": "TRAMADOL 100MG AMP X 1",
+    "rawFamilia": "HIPNOTICO",
+    "cleanName": "Tramadol 100Mg Amp X 1",
+    "cleanCategory": "Otros Medicamentos"
+  },
+  {
+    "sku": "A86100135",
+    "rawName": "ATOMO DESINFL GELDIC VL X 30G",
+    "rawFamilia": "ANALGESICO REFRIGERANTE",
+    "cleanName": "Atomo Desinfl Geldic Vl X 30G",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A53640126",
+    "rawName": "SUPRADYN FTE GRAG X 30",
+    "rawFamilia": "POLIVITAMINICO POLIMINERAL",
+    "cleanName": "Supradyn Fte Grag X 30",
+    "cleanCategory": "Vitaminas y Suplementos"
+  },
+  {
+    "sku": "A16101004",
+    "rawName": "IRUXOL UNG X 15 G",
+    "rawFamilia": "CICATRIZANTE",
+    "cleanName": "Iruxol Ung X 15 G",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A88904722",
+    "rawName": "UVASAL SOBRE NARANJA     X 30",
+    "rawFamilia": "ANTIACIDO",
+    "cleanName": "Uvasal Sobre Naranja X 30",
+    "cleanCategory": "Digestivo"
+  },
+  {
+    "sku": "A99901531",
+    "rawName": "ALERFEDINE D COMP X 10",
+    "rawFamilia": "DESCONGESTIVO ANTIHISTAMINICO",
+    "cleanName": "Alerfedine D Comp X 10",
+    "cleanCategory": "Antigripales y Antialérgicos"
+  },
+  {
+    "sku": "A88900648",
+    "rawName": "ACTRON PED 4% SUSP X 100 ML",
+    "rawFamilia": "ANALGESICO ANTIFEBRIL",
+    "cleanName": "Actron Ped 4% Susp X 100 Ml",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A24111506",
+    "rawName": "DOLTEN 20 MG COMP X 20",
+    "rawFamilia": "ANALGESICO",
+    "cleanName": "Dolten 20 Mg Comp X 20",
+    "cleanCategory": "Analgésicos y Antiinflamatorios"
+  },
+  {
+    "sku": "A05200105",
+    "rawName": "GASANA APQU 15X15 CM",
+    "rawFamilia": "APOSITO QUIRURGICO",
+    "cleanName": "Gasana Apqu 15X15 Cm",
+    "cleanCategory": "Antisépticos y Curación"
+  },
+  {
+    "sku": "A07305402",
+    "rawName": "NERO 40 AMP X 6",
+    "rawFamilia": "ANTIESPASMODICO",
+    "cleanName": "Nero 40 Amp X 6",
+    "cleanCategory": "Digestivo"
+  },
+  {
+    "sku": "A88983411",
+    "rawName": "SUPRADYN GUMMIES GOMITAS 6X25",
+    "rawFamilia": "POLIVITAMINICO POLIMINERAL",
+    "cleanName": "Supradyn Gummies Gomitas 6X25",
+    "cleanCategory": "Vitaminas y Suplementos"
+  }
+]

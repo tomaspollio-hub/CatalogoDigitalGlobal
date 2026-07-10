@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo Mayorista — Farmacias Global</title>
+  <meta name="description" content="Catálogo de insumos para pedidos mayoristas. Armá tu pedido y enviálo por WhatsApp o email." />
+  <link rel="stylesheet" href="src/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ── Header ──────────────────────────────────────────────── -->
+  <header class="app-header">
+    <div class="app-header__inner">
+      <div class="app-header__brand">
+        <div class="app-header__logo">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3.75H6.912a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H15M12 9v6m-3-3h6M9 3.75h6" />
+          </svg>
+        </div>
+        <div>
+          <div class="app-header__title" id="business-name">Farmacias Global</div>
+          <div class="app-header__subtitle" id="business-tagline">Soluciones Corporativas</div>
+        </div>
+      </div>
+
+      <div class="app-header__actions">
+        <button id="btn-history-header" class="btn-ghost" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          <span class="btn-label-full">Mis pedidos</span>
+        </button>
+        <button id="btn-cart-header" class="btn-cart-header" type="button" aria-haspopup="dialog" aria-controls="cart-drawer">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.962-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+          </svg>
+          <span class="btn-label-full">Mi pedido</span>
+          <span id="cart-badge" class="cart-badge" hidden>0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── App Main ────────────────────────────────────────────── -->
+  <main class="app-main">
+
+    <!-- Buscador -->
+    <div class="search-bar">
+      <label for="search-input" class="sr-only">Buscar producto</label>
+      <div class="search-bar__wrap">
+        <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+        </svg>
+        <input
+          id="search-input"
+          class="search-bar__input"
+          type="search"
+          placeholder="Buscar por nombre, SKU o código de barras…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <div id="search-suggestions" class="search-suggestions" hidden></div>
+      </div>
+    </div>
+
+    <!-- Chips de categoría -->
+    <div class="chips-bar" role="group" aria-label="Filtrar por categoría" id="category-chips"></div>
+
+    <!-- Contador de resultados -->
+    <p id="results-count" class="results-count" aria-live="polite" aria-atomic="true"></p>
+
+    <!-- Grid de productos -->
+    <div id="product-grid" class="product-grid" role="list"></div>
+
+  </main>
+
+  <!-- ── Carrito: drawer ──────────────────────────────────────── -->
+  <div id="cart-drawer-overlay" class="drawer-overlay" hidden aria-hidden="true">
+    <aside id="cart-drawer" class="cart-drawer" aria-label="Tu pedido" role="dialog" aria-modal="true">
+      <div class="cart-drawer__header">
+        <h2 class="cart-panel__title">Tu pedido</h2>
+        <button id="cart-close" class="modal__close" style="position:static;" aria-label="Cerrar pedido">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div id="cart-items" role="list"></div>
+
+      <div id="cart-footer" class="cart-panel__footer" hidden>
+        <p id="cart-summary"></p>
+        <button id="btn-clear-cart" class="btn-ghost btn-ghost--danger" type="button" style="width:100%; justify-content:center;">Vaciar pedido</button>
+        <button id="btn-review-order" class="btn-primary" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25Z" />
+          </svg>
+          Continuar pedido
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ── Producto: modal overlay ─────────────────────────────── -->
+  <div id="modal-overlay" class="modal-overlay" hidden aria-modal="true" role="dialog">
+    <div id="modal-content" class="modal"></div>
+  </div>
+
+  <!-- ── Checkout: modal overlay ──────────────────────────────── -->
+  <div id="checkout-overlay" class="modal-overlay" hidden aria-modal="true" role="dialog" aria-label="Finalizar pedido">
+    <div id="checkout-modal" class="modal modal--wide"></div>
+  </div>
+
+  <!-- ── Historial: modal overlay ─────────────────────────────── -->
+  <div id="history-overlay" class="modal-overlay" hidden aria-modal="true" role="dialog" aria-label="Mis pedidos">
+    <div id="history-modal" class="modal modal--wide"></div>
+  </div>
+
+  <!-- ── Toasts ───────────────────────────────────────────────── -->
+  <div id="toast-container" class="toast-container" role="status" aria-live="polite"></div>
+
+  <footer class="site-footer">
+    Catálogo sin precios — armá tu pedido y lo confirmamos por WhatsApp o email.
+  </footer>
+
+  <script type="module" src="src/app.js"></script>
+
+</body>
+</html>

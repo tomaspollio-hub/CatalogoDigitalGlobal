@@ -1,0 +1,114 @@
+{
+  "_readme": "Etapa 1 no tiene un proveedor de búsqueda de imágenes configurado (ninguna API contratada todavía). Estos resultados fueron investigados manualmente por Claude usando búsqueda web real, uno por uno, simulando el rol de 'image-search-provider' que en Etapa 3 sería una API. Cada GTIN de products.json es ficticio (datos de ejemplo del catálogo demo) — por diseño, ninguna fuente real puede confirmar coincidencia de GTIN, así que gtinExactMatch es false en los 10 casos. Ese es precisamente el hallazgo central del reporte.",
+
+  "AN-001": {
+    "found": true,
+    "sourceUrl": "https://www.farmatodo.com.ar/producto/300063847-ibu-ibuprofeno-600-mg-i-s-a-caja-x-30-comprimidos",
+    "domain": "farmatodo.com.ar",
+    "domainType": "distributor",
+    "foundBrand": "I.S.A.",
+    "nameSimilarity": 0.9,
+    "presentationMatch": true,
+    "imageQuality": 0.8,
+    "notes": "Coincidencia de presentación exacta ('Caja x 30 Comprimidos') en una farmacia online. No se encontró página oficial del fabricante con esta presentación puntual."
+  },
+  "AN-002": {
+    "found": true,
+    "sourceUrl": "https://adium.com.ar/producto/paracetamol-raffo/",
+    "domain": "adium.com.ar",
+    "domainType": "manufacturer",
+    "foundBrand": "Raffo",
+    "nameSimilarity": 0.85,
+    "presentationMatch": true,
+    "imageQuality": 0.95,
+    "notes": "adium.com.ar es el sitio oficial de Laboratorios Raffo. La presentación x20 se confirmó de forma cruzada en un distribuidor (Farmacias Villegas); la página oficial no especifica el conteo exacto por caja."
+  },
+  "AN-003": {
+    "found": true,
+    "sourceUrl": "https://quimfar.com/producto/diclofenac-sodico-dolfenac-75mg-3ml-solucion-inyectable/",
+    "domain": "quimfar.com",
+    "domainType": "manufacturer",
+    "foundBrand": "Quim-Far",
+    "nameSimilarity": 0.8,
+    "presentationMatch": true,
+    "imageQuality": 0.75,
+    "notes": "Quim-Far (Dolfenac) confirma envases de 5, 10 y 25 ampollas — la presentación x10 coincide."
+  },
+  "AN-004": {
+    "found": true,
+    "sourceUrl": "https://adium.com.ar/producto/ultragesic-cb/",
+    "domain": "adium.com.ar",
+    "domainType": "manufacturer",
+    "foundBrand": "Raffo",
+    "nameSimilarity": 0.85,
+    "presentationMatch": false,
+    "imageQuality": 0.9,
+    "notes": "Página oficial de Raffo (Ultragesic CB) no especifica el conteo de comprimidos por caja; no se pudo confirmar 'x10'. Además es producto controlado: independientemente del puntaje, la regla de negocio exige revisión humana obligatoria."
+  },
+  "AB-001": {
+    "found": true,
+    "sourceUrl": "https://roemmers.com.ar/producto/amoxidal/",
+    "domain": "roemmers.com.ar",
+    "domainType": "manufacturer",
+    "foundBrand": "Roemmers",
+    "nameSimilarity": 0.9,
+    "presentationMatch": true,
+    "imageQuality": 0.95,
+    "notes": "Coincidencia fuerte: Roemmers oficial + un distribuidor (Farmatodo) confirma 'Caja x 21 Comprimidos' exacto. El candidato con mejor puntaje de los 10, pero igual queda 2 puntos por debajo del piso de revisión manual por no poder confirmar el GTIN."
+  },
+  "AB-002": {
+    "found": true,
+    "sourceUrl": "https://adium.com.ar/producto/doyle/",
+    "domain": "adium.com.ar",
+    "domainType": "manufacturer",
+    "foundBrand": "Raffo",
+    "nameSimilarity": 0.85,
+    "presentationMatch": false,
+    "imageQuality": 0.85,
+    "notes": "DOYLE (Raffo) existe en versiones de 500mg y 600mg; la página general no confirma la presentación puntual de 3 comprimidos."
+  },
+  "AB-003": {
+    "found": true,
+    "sourceUrl": "https://roemmers.com.ar/producto/ceporexin/",
+    "domain": "roemmers.com.ar",
+    "domainType": "manufacturer",
+    "foundBrand": "Roemmers",
+    "nameSimilarity": 0.85,
+    "presentationMatch": true,
+    "imageQuality": 0.9,
+    "notes": "Ceporexin (Roemmers) en presentación de 16 comprimidos coincide exacto con el catálogo."
+  },
+  "AS-001": {
+    "found": true,
+    "sourceUrl": "https://www.victorylimpieza.com.ar/productos-1056-institucional-mas.html",
+    "domain": "victorylimpieza.com.ar",
+    "domainType": "manufacturer",
+    "foundBrand": "Victory Limpieza",
+    "nameSimilarity": 0.75,
+    "presentationMatch": true,
+    "imageQuality": 0.7,
+    "notes": "Fabricante directo de alcohol en gel para uso institucional; confirma bidones de 5 y 10 litros."
+  },
+  "AS-002": {
+    "found": true,
+    "sourceUrl": "https://www.bialcohol.com.ar/alcohol/alchol-al-96/",
+    "domain": "bialcohol.com.ar",
+    "domainType": "manufacturer",
+    "foundBrand": "Bialcohol",
+    "nameSimilarity": 0.85,
+    "presentationMatch": true,
+    "imageQuality": 0.75,
+    "notes": "Fabricante directo; la presentación de 1 litro se confirmó también en distribuidores que revenden la marca."
+  },
+  "AS-003": {
+    "found": true,
+    "sourceUrl": "https://www.insumosodontologicosweb.com.ar/productos/gasas-esteriles-en-sobres-10x10cm-320-gasas-hidrogasa/",
+    "domain": "insumosodontologicosweb.com.ar",
+    "domainType": "distributor",
+    "foundBrand": "Gasana",
+    "nameSimilarity": 0.7,
+    "presentationMatch": false,
+    "imageQuality": 0.6,
+    "notes": "Ninguna fuente encontrada confirma la presentación exacta 'sobre x 25 unidades' — las variantes reales encontradas son de x10, x16 o cajas de 320 unidades."
+  }
+}
