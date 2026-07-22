@@ -53,10 +53,20 @@ export const CONFIG = {
 
 ## Productos
 
-`src/products.json` tiene **100 productos reales** del rubro medicinal, extraídos del export
-del sistema (`Grupos_de_Productos_10-7-2026.xlsx`, ~7.761 productos totales incluyendo
-perfumería/cosmética — se filtró solo la parte medicinal para esta primera carga). Cada
-producto tiene esta forma:
+`src/products.json` tiene **1.512 productos** — los que Ventas Corporativas viene facturando
+activamente (fuente: `Herramienta_Presupuestos_v3.xlsx`, hoja "Productos", 1.561 productos con
+código de barra), enriquecidos con categoría y fabricante reales cruzando por código de barra
+contra el maestro `Grupos_de_Productos_10-7-2026.xlsx` (match en el 92% de los casos). El script
+que genera el archivo es `tools/enrichment/generate-corporate-catalog.py` (corre a mano, no forma
+parte del build — necesita los dos Excel en `~/Descargas`, que no se commitean al repo).
+
+Del listado original de 1.561 se excluyeron:
+- **5 líneas de servicio**, no productos: "Envío a domicilio", "Envío por correo", "Gift card",
+  "Aplicación", "Zprueba".
+- **44 productos dados de baja** en el sistema de origen (marcados con el prefijo `{` en el
+  nombre, que es la convención del sistema para indicar que el producto está descontinuado).
+
+Cada producto tiene esta forma:
 
 ```json
 {
@@ -70,29 +80,49 @@ producto tiene esta forma:
   "minMultiple": 1,
   "disponibilidad": "disponible",
   "controlado": false,
-  "description": "Comercializado por Bayer Consumer. Categoría: Analgésicos y Antiinflamatorios."
+  "description": "Comercializado por Bayer Consumer. Categoría: Analgésicos y Antiinflamatorios.",
+  "clientesDistintos": 1,
+  "unidadesPeriodo": 1
 }
 ```
 
+- `clientesDistintos` / `unidadesPeriodo`: métricas reales de venta corporativa en el período
+  cubierto por `Herramienta_Presupuestos_v3.xlsx`. Se usan para ordenar el catálogo por rotación
+  (el JSON queda ordenado por `unidadesPeriodo` descendente) y para el badge **"Más pedido"**
+  en la tarjeta de producto (se muestra cuando `clientesDistintos >= 15`, ver
+  `POPULAR_MIN_CLIENTS` en `src/app.js`).
 - `minMultiple`: el carrito solo permite cantidades en múltiplos de este número. **Viene en 1
-  para los 100 productos reales porque el export del sistema no trae esta regla de negocio** —
-  hay que revisarlo producto por producto (o por categoría) antes de que sea definitivo.
-- `disponibilidad`: `"disponible"` | `"a_consultar"` | `"sin_stock"`. Los 3 productos controlados
-  (Tramadol, Midazolam, Somit) quedaron en `"a_consultar"` a propósito.
-- `controlado`: `true` en los 3 casos detectados como sustancia controlada (por nombre y por la
-  categoría "Hipnótico" del sistema de origen) — revisar si además de la advertencia querés
-  sacarlos directamente de un catálogo autoservicio.
+  para todos los productos porque ninguna de las dos fuentes trae esta regla de negocio** — hay
+  que revisarlo producto por producto (o por categoría) antes de que sea definitivo.
+- `disponibilidad`: `"disponible"` | `"a_consultar"` | `"sin_stock"`.
+  - `"a_consultar"`: los 7 productos controlados detectados, **más 247 productos que no
+    matchearon contra el maestro** (no se pudo confirmar si siguen habilitados — categoría y
+    disponibilidad sin verificar, quedaron con categoría "Otros Medicamentos" por defecto).
+  - `"sin_stock"`: reservado para productos dados de baja en el maestro pero sin el prefijo `{`
+    en el nombre de origen (en esta corrida no hubo ningún caso: todas las bajas ya venían
+    marcadas con el prefijo y se excluyeron directamente).
+- `controlado`: `true` en los **7 casos detectados** (Tramadol, Midazolam, Diazepam, Valium,
+  Clonagin, Rem Chobet, Somit) por la familia "Hipnótico"/"Ansiolítico" del sistema de origen —
+  revisar si además de la advertencia querés sacarlos directamente de un catálogo autoservicio.
+- `category`: **321 "Familia" distintas del maestro se mapearon automáticamente** a un set de 18
+  categorías (ver `CODE_CATEGORY` y `KEYWORD_CATEGORY` en el script de generación) — es un mapeo
+  de reglas (por código de rubro y por palabra clave), no una revisión producto por producto.
+  "Otros Medicamentos" es el catch-all para lo que no matcheó ninguna regla (373 productos):
+  conviene una pasada de revisión antes de considerar la categorización definitiva.
 - `name`: viene del sistema de origen con abreviaturas propias del rubro (ej. "COMP", "SUSP",
   "AMP") — no se reescribió para no alterar información real del producto. Puede necesitar una
   pasada editorial.
-- `brand` / `manufacturer`: `brand` es la marca comercial (ej. "Actron"), `manufacturer` el
-  laboratorio/empresa (ej. "Bayer Consumer") — puede haber inconsistencias puntuales heredadas
-  del sistema de origen (ver `tools/enrichment/data/product-import-audit.json` para trazabilidad
-  completa nombre original → nombre limpio, por si hay que auditar algo).
+- `brand` / `manufacturer`: `brand` es la marca comercial, `manufacturer` el laboratorio/empresa
+  — puede haber inconsistencias puntuales heredadas del sistema de origen.
+- `sku`: para productos que matchearon contra el maestro, es el "Código externo" real del
+  sistema (ej. `A88900648`). Para los que no matchearon, se generó un SKU sintético con prefijo
+  `C` + código de barra (ej. `C99900074`) — **no es un código real del sistema**, solo un
+  identificador estable para el carrito.
 
-Para cargar el resto del catálogo (los ~7.660 productos restantes, incluida perfumería) o para
-volver a generar esta selección con otros criterios, avisá — el proceso de extracción y limpieza
-quedó armado y es reproducible sobre el Excel original.
+Para cargar el resto del catálogo completo (los ~6.250 productos que no están en la lista de
+Ventas Corporativas) o para volver a generar esta selección con otros criterios, avisá — el
+proceso de extracción y limpieza está en `tools/enrichment/generate-corporate-catalog.py` y es
+reproducible sobre los Excel originales.
 
 Para imágenes de producto: agregar los archivos a `public/img/` y cambiar `PLACEHOLDER_IMG` en
 `src/app.js` por la lógica que arme la ruta según el producto (por ejemplo, un campo `"image"` en

@@ -5,6 +5,7 @@ const PLACEHOLDER_IMG = 'public/img/placeholder.svg';
 const CART_STORAGE_KEY = 'catalogo_cart_v1';
 const ORDERS_STORAGE_KEY = 'catalogo_orders_v1';
 const MAX_ORDERS_SAVED = 20;
+const POPULAR_MIN_CLIENTS = 15;
 
 const AVAILABILITY_LABEL = {
   disponible: 'Disponible',
@@ -267,6 +268,7 @@ function renderProductCard(product) {
     <article class="product-card" data-role="card" data-sku="${product.sku}" tabindex="0" role="listitem" aria-label="${escapeHtml(product.name)}">
       <div class="product-card__img-wrap">
         ${product.controlado ? `<span class="product-card__controlled">Controlado</span>` : ''}
+        ${!product.controlado && product.clientesDistintos >= POPULAR_MIN_CLIENTS ? `<span class="product-card__popular">Más pedido</span>` : ''}
         <img class="product-card__img" src="${PLACEHOLDER_IMG}" alt="${escapeHtml(product.name)}" loading="lazy" />
       </div>
       <div class="product-card__body">
