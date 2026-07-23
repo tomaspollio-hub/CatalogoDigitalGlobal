@@ -18,6 +18,68 @@ OUT = "/home/tomas/CatalogoDigitalGlobal/src/products.json"
 
 JUNK_NAMES = {"ENVIO A DOMICILIO", "ENVIO POR CORREO", "GIFT CARD", "APLICACION", "ZPRUEBA"}
 
+# Piloto verificado a mano (nombre real + imagen oficial) para los productos "Más pedido"
+# (clientesDistintos >= 15). Investigado por código de barra contra sitios de fabricante /
+# retailers de referencia — ver conversación del 2026-07-22. El resto del catálogo sigue
+# usando el nombre crudo del sistema de origen hasta que se amplíe este piloto.
+VERIFIED_NAMES = {
+    "7793742003431": "Dermaglós Solar FPS50 Emulsión x 250 ml",
+    "7702003010774": "Curitas Apósito Adhesivo Transpiel x 10 Unidades",
+    "7798026345269": "Hipoalergic Pore Cinta Adhesiva Microporosa 2,5 cm x 9 m",
+    "7791848054500": "Pervinox Solución Tópica x 60 ml",
+    "99900031": "Guantes de Cirugía Nipro N° 8 1/2 (par)",
+    "7702003010750": "Curitas Apósito Adhesivo Tela Elástica x 10 Unidades",
+    "7795375579000": "Platsul-A Crema x 30 g",
+    "7797321000620": "Gasana Venda Elástica Tipo Cambric 10 cm x 3 m",
+    "7797321000057": "Gasana Gasa N°5 10x10 cm Caja x 10 Sobres",
+    "7797321000606": "Gasana Venda Tipo Cambric 5 cm x 3 m",
+    "7798021991973": "Tablada Agua Oxigenada 10 Vol. Frasco Gotero x 100 ml",
+    "7798021991010": "Tablada Agua Oxigenada 10 Vol. x 250 ml",
+    "2046": "Rigecin Solución Fisiológica x 500 ml",
+    "7797321000613": "Gasana Venda Tipo Cambric 7 cm x 3 m",
+    "1527": "Tijera de Curación Recta 14 cm",
+    "4968420512588": "Guantes de Cirugía Nipro N° 8 (par)",
+    "7795368001419": "Gota PC Descongestivo Baño Ocular x 80 ml",
+    "7798021991072": "Tablada Solución Fisiológica Frasco Gotero x 100 ml",
+    "8002660035653": "Influvac Tetra Vacuna Antigripal Jeringa Prellenada x 0,5 ml",
+    "7790139003623": "Bialcohol Alcohol Etílico 96° x 1000 ml",
+    "7791848055309": "Pervinox Solución Tópica x 120 ml",
+    "7790139003616": "Bialcohol Alcohol Etílico 96° x 250 ml",
+    "4968420500349": "Guantes de Látex para Examen Nipro Talle M x 100",
+    "7798021991003": "Tablada Agua Oxigenada 10 Vol. x 100 ml",
+    "7798028009961": "Lisfar Pinza para Depilar Recta Niquelada",
+    "7790064101814": "Estrella Algodón Super Practipack x 75 g",
+    "652": "Copita Lava Ojos",
+    "7702003010736": "Curitas Apósito Adhesivo Tela Elástica x 20 Unidades",
+    "7797321000019": "Gasana Gasa N°1 10x10 cm Caja x 10 Sobres",
+    "4968420500356": "Guantes de Látex para Examen Nipro Talle L x 100",
+    "7798026345252": "Hipoalergic Pore Cinta Adhesiva Microporosa 1,25 cm x 9 m",
+    "4580193651389": "Citizen Termómetro Clínico Digital CTA-301C",
+    "7793742007118": "Dermaglós Facial Serum Ácido Hialurónico x 30 ml",
+}
+
+# Imagen real descargada del fabricante/retailer (public/img/productos/<barcode>.<ext>).
+VERIFIED_IMAGES = {
+    "7702003010736": "7702003010736.webp",
+    "7702003010750": "7702003010750.webp",
+    "7702003010774": "7702003010774.webp",
+    "7790139003616": "7790139003616.webp",
+    "7790139003623": "7790139003623.webp",
+    "7791848054500": "7791848054500.webp",
+    "7791848055309": "7791848055309.png",
+    "7793742003431": "7793742003431.jpg",
+    "7793742007118": "7793742007118.jpg",
+    "7795368001419": "7795368001419.png",
+    "7795375579000": "7795375579000.webp",
+    "7797321000019": "7797321000019.webp",
+    "7797321000620": "7797321000620.webp",
+    "7798021991003": "7798021991003.jpg",
+    "7798021991010": "7798021991010.jpg",
+    "7798021991973": "7798021991973.jpg",
+    "7798026345252": "7798026345252.webp",
+    "7798026345269": "7798026345269.webp",
+}
+
 CODE_CATEGORY = {
     "LIMP": "Limpieza",
     "PE.LI": "Cosmética y Cuidado Personal",
@@ -178,13 +240,14 @@ def main():
         seen_skus.add(sku)
 
         description = f"Categoría: {category}."
-        if manufacturer and manufacturer != "Sin especificar":
-            description = f"Comercializado por {manufacturer}. " + description
+
+        name = VERIFIED_NAMES.get(barcode, clean_name(raw_name))
+        image = VERIFIED_IMAGES.get(barcode)
 
         product = {
             "sku": sku,
             "barcode": barcode,
-            "name": clean_name(raw_name),
+            "name": name,
             "brand": brand or manufacturer,
             "manufacturer": manufacturer,
             "category": category,
@@ -195,6 +258,7 @@ def main():
             "description": description,
             "clientesDistintos": int(row["clientes"]),
             "unidadesPeriodo": int(row["unidades"]),
+            "image": f"public/img/productos/{image}" if image else None,
         }
         products.append(product)
 

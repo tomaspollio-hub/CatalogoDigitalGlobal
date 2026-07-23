@@ -269,7 +269,7 @@ function renderProductCard(product) {
       <div class="product-card__img-wrap">
         ${product.controlado ? `<span class="product-card__controlled">Controlado</span>` : ''}
         ${!product.controlado && product.clientesDistintos >= POPULAR_MIN_CLIENTS ? `<span class="product-card__popular">Más pedido</span>` : ''}
-        <img class="product-card__img" src="${PLACEHOLDER_IMG}" alt="${escapeHtml(product.name)}" loading="lazy" />
+        <img class="product-card__img" src="${product.image || PLACEHOLDER_IMG}" alt="${escapeHtml(product.name)}" loading="lazy" />
       </div>
       <div class="product-card__body">
         <span class="product-card__category">${escapeHtml(product.category)}</span>
@@ -341,7 +341,7 @@ function openProductModal(sku) {
   el.modalContent.innerHTML = `
     <button class="modal__close" data-role="close-modal" type="button" aria-label="Cerrar">${ICON_CLOSE}</button>
     <div class="modal__img-wrap">
-      <img class="modal__img" src="${PLACEHOLDER_IMG}" alt="${escapeHtml(product.name)}" />
+      <img class="modal__img" src="${product.image || PLACEHOLDER_IMG}" alt="${escapeHtml(product.name)}" />
     </div>
     <div class="modal__body">
       <span class="product-card__category">${escapeHtml(product.category)}</span>
@@ -351,8 +351,7 @@ function openProductModal(sku) {
         <span class="availability-badge badge--${product.disponibilidad}">${AVAILABILITY_LABEL[product.disponibilidad]}</span>
         ${product.controlado ? `<span class="availability-badge" style="background:var(--danger-light); color:var(--danger);">Producto controlado</span>` : ''}
       </div>
-      <span class="modal__sku">SKU ${escapeHtml(product.sku)} · Cód. barras ${escapeHtml(product.barcode)}</span>
-      <p class="modal__description">${escapeHtml(product.description)}</p>
+      <span class="modal__sku">Cód. barras ${escapeHtml(product.barcode)}</span>
       ${product.controlado ? `<div class="alert alert--warning">${ICON_ALERT}<span>Este producto requiere documentación adicional. Nuestro equipo se contactará para validar los datos antes de confirmar el envío.</span></div>` : ''}
       <p class="qty-multiple-hint">Se agrega en múltiplos de ${product.minMultiple} unidades.</p>
       <div id="modal-footer">${qty > 0 ? stepperHTML(product, qty) : addButtonHTML(product)}</div>
@@ -384,7 +383,7 @@ function renderCart() {
 function renderCartItemHTML({ product, qty }) {
   return `
     <div class="cart-item" role="listitem">
-      <img class="cart-item__img" src="${PLACEHOLDER_IMG}" alt="" />
+      <img class="cart-item__img" src="${product.image || PLACEHOLDER_IMG}" alt="" />
       <div class="cart-item__info">
         <span class="cart-item__name">${escapeHtml(product.name)}</span>
         <span class="cart-item__meta">${escapeHtml(product.presentation)}</span>
@@ -544,7 +543,7 @@ function buildOrderText(items, client) {
     lines.push('');
     lines.push(category.toUpperCase());
     for (const { product, qty } of list) {
-      lines.push(`- ${product.name} (SKU ${product.sku}) x${qty} — ${product.presentation}`);
+      lines.push(`- ${product.name} (Cód. barras ${product.barcode}) x${qty} — ${product.presentation}`);
     }
   }
 
