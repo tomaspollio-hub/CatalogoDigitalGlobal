@@ -54,16 +54,34 @@ export function searchProducts(query, limit = 25) {
   return filterProductsByQuery(query).slice(0, limit);
 }
 
+const DISPONIBILIDAD_RANK = { disponible: 0, a_consultar: 1, sin_stock: 2 };
+
+/** No hay columna de stock numérico en los datos — solo el estado `disponibilidad`. */
+const SORTERS = {
+  ventas_desc: (a, b) => (b.unidadesPeriodo || 0) - (a.unidadesPeriodo || 0),
+  clientes_desc: (a, b) => (b.clientesDistintos || 0) - (a.clientesDistintos || 0),
+  disponible_primero: (a, b) => (DISPONIBILIDAD_RANK[a.disponibilidad] ?? 9) - (DISPONIBILIDAD_RANK[b.disponibilidad] ?? 9),
+  a_consultar_primero: (a, b) => (a.disponibilidad === 'a_consultar' ? -1 : 0) - (b.disponibilidad === 'a_consultar' ? -1 : 0),
+  sin_stock_primero: (a, b) => (a.disponibilidad === 'sin_stock' ? -1 : 0) - (b.disponibilidad === 'sin_stock' ? -1 : 0),
+  nombre_asc: (a, b) => a.name.localeCompare(b.name, 'es'),
+  nombre_desc: (a, b) => b.name.localeCompare(a.name, 'es'),
+};
+
 /**
  * Búsqueda del backoffice: texto libre + categoría + si tiene (o no) imagen
- * aprobada. Cualquier filtro es opcional (undefined = sin filtrar por eso).
+ * aprobada + orden. Cualquier filtro es opcional (undefined = sin filtrar).
  * @param {Set<string>} approvedSkuSet SKUs con imagen aprobada y primaria en D1.
  */
-export function searchProductsAdvanced({ query, category, hasImage }, approvedSkuSet, limit = 500) {
+export function searchProductsAdvanced({ query, category, hasImage, sort }, approvedSkuSet, limit = 500) {
   let list = filterProductsByQuery(query);
   if (category) list = list.filter((p) => p.category === category);
   if (hasImage === true) list = list.filter((p) => approvedSkuSet.has(p.sku));
   else if (hasImage === false) list = list.filter((p) => !approvedSkuSet.has(p.sku));
+  if (sort === 'sin_imagen_primero') {
+    list = [...list].sort((a, b) => (approvedSkuSet.has(a.sku) ? 1 : 0) - (approvedSkuSet.has(b.sku) ? 1 : 0));
+  } else if (SORTERS[sort]) {
+    list = [...list].sort(SORTERS[sort]);
+  }
   return list.slice(0, limit);
 }
 

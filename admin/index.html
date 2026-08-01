@@ -31,7 +31,20 @@
           </select>
         </div>
       </div>
-      <p id="product-results-count" class="admin-hint"></p>
+      <div class="product-results-row">
+        <p id="product-results-count" class="admin-hint"></p>
+        <select id="product-sort">
+          <option value="">Orden: relevancia</option>
+          <option value="ventas_desc">Más vendidos</option>
+          <option value="clientes_desc">Más solicitados</option>
+          <option value="disponible_primero">Disponibles primero</option>
+          <option value="a_consultar_primero">A consultar primero</option>
+          <option value="sin_stock_primero">Sin stock primero</option>
+          <option value="sin_imagen_primero">Sin imagen primero</option>
+          <option value="nombre_asc">Nombre A-Z</option>
+          <option value="nombre_desc">Nombre Z-A</option>
+        </select>
+      </div>
       <div id="product-search-results" class="product-list-grid"></div>
       <div id="selected-product-card" class="selected-product-card" hidden></div>
     </section>
