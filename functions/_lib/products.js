@@ -35,19 +35,33 @@ export function findProductByBarcode(barcode) {
   return products.find((p) => p.barcode === barcode) || null;
 }
 
+function filterProductsByQuery(query) {
+  const q = (query || '').toLowerCase().trim();
+  if (!q) return products;
+  return products.filter(
+    (p) =>
+      p.name.toLowerCase().includes(q) ||
+      p.sku.toLowerCase().includes(q) ||
+      (p.barcode || '').includes(q) ||
+      (p.brand || '').toLowerCase().includes(q)
+  );
+}
+
 /** Búsqueda simple para el selector de producto de la pantalla admin. */
 export function searchProducts(query, limit = 25) {
-  const q = (query || '').toLowerCase().trim();
-  if (!q) return products.slice(0, limit);
-  return products
-    .filter(
-      (p) =>
-        p.name.toLowerCase().includes(q) ||
-        p.sku.toLowerCase().includes(q) ||
-        (p.barcode || '').includes(q) ||
-        (p.brand || '').toLowerCase().includes(q)
-    )
-    .slice(0, limit);
+  return filterProductsByQuery(query).slice(0, limit);
+}
+
+/**
+ * Igual que searchProducts, pero además filtra por si el producto tiene
+ * (o no) una imagen aprobada — hasImage: true | false | undefined (sin filtrar).
+ * @param {Set<string>} approvedSkuSet SKUs con imagen aprobada y primaria en D1.
+ */
+export function searchProductsWithImageFilter(query, hasImage, approvedSkuSet, limit = 25) {
+  let list = filterProductsByQuery(query);
+  if (hasImage === true) list = list.filter((p) => approvedSkuSet.has(p.sku));
+  else if (hasImage === false) list = list.filter((p) => !approvedSkuSet.has(p.sku));
+  return list.slice(0, limit);
 }
 
 export function isMedication(product) {

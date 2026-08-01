@@ -18,6 +18,7 @@ const STATUS_LABEL = {
 const el = {
   usageBanner: document.getElementById('usage-banner'),
   productSearchInput: document.getElementById('product-search-input'),
+  productImageFilter: document.getElementById('product-image-filter'),
   productSearchResults: document.getElementById('product-search-results'),
   selectedProductCard: document.getElementById('selected-product-card'),
   searchFormSection: document.getElementById('search-form-section'),
@@ -56,6 +57,7 @@ async function init() {
   refreshUsage();
   refreshPending();
   el.productSearchInput.addEventListener('input', onProductSearchInput);
+  el.productImageFilter.addEventListener('change', onProductSearchInput);
   document.addEventListener('click', (e) => {
     if (!el.productSearchResults.contains(e.target) && e.target !== el.productSearchInput) {
       el.productSearchResults.innerHTML = '';
@@ -218,13 +220,17 @@ async function reviewFromPendingList(sku, imageId) {
 function onProductSearchInput() {
   clearTimeout(productSearchDebounce);
   const q = el.productSearchInput.value.trim();
-  if (!q) {
+  const hasImage = el.productImageFilter.value;
+  if (!q && !hasImage) {
     el.productSearchResults.innerHTML = '';
     return;
   }
   productSearchDebounce = setTimeout(async () => {
     try {
-      const { products } = await api(`products?q=${encodeURIComponent(q)}`);
+      const params = new URLSearchParams();
+      if (q) params.set('q', q);
+      if (hasImage) params.set('hasImage', hasImage);
+      const { products } = await api(`products?${params.toString()}`);
       renderProductSearchResults(products);
     } catch (e) {
       showToast(e.message, 'error');
@@ -273,15 +279,72 @@ function renderSelectedProduct(product) {
   el.selectedProductCard.hidden = false;
   const isMedication = product.categoryGroup === 'medicamento';
   el.selectedProductCard.innerHTML = `
-    <img src="${escapeHtml(product.image || '../public/img/placeholder.svg')}" alt="" />
-    <div class="info">
-      <strong>${escapeHtml(product.name)}</strong>
-      <span>SKU: ${escapeHtml(product.sku)} · Código de barras: ${escapeHtml(product.barcode || 'sin código')}</span>
-      <span>Marca: ${escapeHtml(product.brand || '—')} · Fabricante: ${escapeHtml(product.manufacturer || '—')}</span>
-      <span>Categoría: ${escapeHtml(product.category)} · Presentación: ${escapeHtml(product.presentation || '—')}</span>
-      ${isMedication ? '<span class="badge-medication">Medicamento — revisión obligatoria</span>' : ''}
+    <div class="selected-product-main">
+      <img src="${escapeHtml(product.image || '../public/img/placeholder.svg')}" alt="" />
+      <div class="info">
+        <strong>${escapeHtml(product.name)}</strong>
+        <span>SKU: ${escapeHtml(product.sku)} · Código de barras: ${escapeHtml(product.barcode || 'sin código')}</span>
+        <span>Marca: ${escapeHtml(product.brand || '—')} · Fabricante: ${escapeHtml(product.manufacturer || '—')}</span>
+        <span>Categoría: ${escapeHtml(product.category)} · Presentación: ${escapeHtml(product.presentation || '—')}</span>
+        ${isMedication ? '<span class="badge-medication">Medicamento — revisión obligatoria</span>' : ''}
+      </div>
+      <button type="button" class="btn btn--secondary" id="btn-edit-ficha">Editar ficha</button>
     </div>
+    <form id="edit-ficha-form" class="edit-ficha-form" hidden>
+      <div class="field">
+        <label for="ficha-name">Nombre</label>
+        <input id="ficha-name" type="text" value="${escapeHtml(product.name)}" />
+      </div>
+      <div class="field">
+        <label for="ficha-brand">Marca</label>
+        <input id="ficha-brand" type="text" value="${escapeHtml(product.brand || '')}" />
+      </div>
+      <div class="field">
+        <label for="ficha-manufacturer">Fabricante</label>
+        <input id="ficha-manufacturer" type="text" value="${escapeHtml(product.manufacturer || '')}" />
+      </div>
+      <div class="field">
+        <label for="ficha-presentation">Presentación</label>
+        <input id="ficha-presentation" type="text" value="${escapeHtml(product.presentation || '')}" />
+      </div>
+      <div class="search-actions">
+        <button type="submit" class="btn btn--primary">Guardar cambios</button>
+        <button type="button" class="btn btn--secondary" id="btn-cancel-ficha">Cancelar</button>
+      </div>
+    </form>
   `;
+
+  const editBtn = document.getElementById('btn-edit-ficha');
+  const form = document.getElementById('edit-ficha-form');
+  editBtn.addEventListener('click', () => {
+    form.hidden = !form.hidden;
+  });
+  document.getElementById('btn-cancel-ficha').addEventListener('click', () => {
+    form.hidden = true;
+  });
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    saveProductFicha(product.sku);
+  });
+}
+
+async function saveProductFicha(sku) {
+  try {
+    const fields = {
+      name: document.getElementById('ficha-name').value.trim(),
+      brand: document.getElementById('ficha-brand').value.trim(),
+      manufacturer: document.getElementById('ficha-manufacturer').value.trim(),
+      presentation: document.getElementById('ficha-presentation').value.trim(),
+    };
+    await api(`products/${encodeURIComponent(sku)}`, { method: 'PUT', body: JSON.stringify(fields) });
+    showToast('Ficha actualizada.', 'success');
+    const { product, images } = await api(`products/${encodeURIComponent(sku)}`);
+    selectedProduct = product;
+    renderSelectedProduct(product);
+    renderHistory(images);
+  } catch (e) {
+    showToast(e.message, 'error');
+  }
 }
 
 function prefillSearchForm(product) {

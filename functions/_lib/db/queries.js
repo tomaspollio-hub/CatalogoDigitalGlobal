@@ -81,6 +81,14 @@ export async function getProductImagesForProduct(db, productId) {
   return results.map(rowToProductImage);
 }
 
+/** SKUs con al menos una imagen aprobada y marcada primaria — para el filtro "con/sin imagen" del admin. */
+export async function getApprovedPrimaryProductIds(db) {
+  const { results } = await db
+    .prepare("SELECT DISTINCT product_id FROM product_images WHERE status = 'approved' AND is_primary = 1")
+    .all();
+  return new Set(results.map((r) => r.product_id));
+}
+
 /** Todas las imágenes esperando revisión humana, sin importar el producto — para el panel global de pendientes. */
 export async function getPendingReviewImages(db, limit = 300) {
   const { results } = await db
@@ -139,6 +147,66 @@ export async function setPrimaryImage(db, productId, id) {
 /** @param {D1Database} db */
 export async function deleteProductImage(db, id) {
   await db.prepare('DELETE FROM product_images WHERE id = ?').bind(id).run();
+}
+
+/** @param {D1Database} db */
+export async function getProductOverride(db, productId) {
+  const row = await db.prepare('SELECT * FROM product_overrides WHERE product_id = ?').bind(productId).first();
+  if (!row) return null;
+  return {
+    productId: row.product_id,
+    name: row.name || undefined,
+    brand: row.brand || undefined,
+    manufacturer: row.manufacturer || undefined,
+    presentation: row.presentation || undefined,
+    updatedBy: row.updated_by,
+    updatedAt: row.updated_at,
+  };
+}
+
+/** Todos los overrides de ficha de producto — usado para pisar el catálogo público. */
+export async function getAllProductOverrides(db) {
+  const { results } = await db.prepare('SELECT * FROM product_overrides').all();
+  return new Map(
+    results.map((row) => [
+      row.product_id,
+      {
+        name: row.name || undefined,
+        brand: row.brand || undefined,
+        manufacturer: row.manufacturer || undefined,
+        presentation: row.presentation || undefined,
+      },
+    ])
+  );
+}
+
+/**
+ * Crea o reemplaza la ficha editada de un producto. Campos vacíos/omitidos
+ * se guardan como NULL (sin override para ese campo puntual).
+ * @param {D1Database} db
+ */
+export async function upsertProductOverride(db, productId, fields, updatedBy) {
+  await db
+    .prepare(
+      `INSERT INTO product_overrides (product_id, name, brand, manufacturer, presentation, updated_by, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, datetime('now'))
+       ON CONFLICT(product_id) DO UPDATE SET
+         name = excluded.name,
+         brand = excluded.brand,
+         manufacturer = excluded.manufacturer,
+         presentation = excluded.presentation,
+         updated_by = excluded.updated_by,
+         updated_at = excluded.updated_at`
+    )
+    .bind(
+      productId,
+      fields.name || null,
+      fields.brand || null,
+      fields.manufacturer || null,
+      fields.presentation || null,
+      updatedBy
+    )
+    .run();
 }
 
 /** @param {D1Database} db */
