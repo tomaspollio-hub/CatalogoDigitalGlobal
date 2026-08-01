@@ -9,12 +9,11 @@ export async function onRequestGet(context) {
   const category = url.searchParams.get('category') || undefined;
   const hasImageParam = url.searchParams.get('hasImage');
   const hasImage = hasImageParam === 'true' ? true : hasImageParam === 'false' ? false : undefined;
-  const sort = url.searchParams.get('sort') || undefined;
 
   const thumbnailByProductId = await getApprovedPrimaryThumbnails(env.DB);
   const approvedSkuSet = new Set(thumbnailByProductId.keys());
 
-  const matched = searchProductsAdvanced({ query: q, category, hasImage, sort }, approvedSkuSet, 500);
+  const matched = searchProductsAdvanced({ query: q, category, hasImage }, approvedSkuSet, 500);
 
   const results = matched.map((p) => {
     const thumbnailPath = thumbnailByProductId.get(p.sku);

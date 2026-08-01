@@ -101,22 +101,6 @@
   background: var(--surface);
   color: var(--text-primary);
 }
-.product-results-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-  flex-wrap: wrap;
-}
-.product-results-row .admin-hint { margin: 0; }
-.product-results-row select {
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius);
-  font-size: var(--text-sm);
-  background: var(--surface);
-  color: var(--text-primary);
-}
 .product-list-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

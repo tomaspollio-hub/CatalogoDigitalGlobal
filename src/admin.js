@@ -20,7 +20,6 @@ const el = {
   productSearchInput: document.getElementById('product-search-input'),
   productCategoryFilter: document.getElementById('product-category-filter'),
   productImageFilter: document.getElementById('product-image-filter'),
-  productSort: document.getElementById('product-sort'),
   productResultsCount: document.getElementById('product-results-count'),
   productSearchResults: document.getElementById('product-search-results'),
   selectedProductCard: document.getElementById('selected-product-card'),
@@ -51,7 +50,6 @@ async function init() {
   el.productSearchInput.addEventListener('input', onProductSearchInput);
   el.productCategoryFilter.addEventListener('change', onProductSearchInput);
   el.productImageFilter.addEventListener('change', onProductSearchInput);
-  el.productSort.addEventListener('change', onProductSearchInput);
   onProductSearchInput(); // muestra la lista completa (sin filtros) apenas carga la página
   el.pendingSelectAll.addEventListener('click', () => {
     selectablePendingIds().forEach((id) => pendingSelected.add(id));
@@ -214,13 +212,11 @@ async function runProductSearch() {
   const q = el.productSearchInput.value.trim();
   const category = el.productCategoryFilter.value;
   const hasImage = el.productImageFilter.value;
-  const sort = el.productSort.value;
   try {
     const params = new URLSearchParams();
     if (q) params.set('q', q);
     if (category) params.set('category', category);
     if (hasImage) params.set('hasImage', hasImage);
-    if (sort) params.set('sort', sort);
     const { products, categories } = await api(`products?${params.toString()}`);
     if (!categoriesLoaded) populateCategoryFilter(categories);
     renderProductSearchResults(products);
