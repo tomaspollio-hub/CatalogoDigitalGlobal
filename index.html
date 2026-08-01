@@ -68,8 +68,18 @@
     <!-- Chips de categoría -->
     <div class="chips-bar" role="group" aria-label="Filtrar por categoría" id="category-chips"></div>
 
-    <!-- Contador de resultados -->
-    <p id="results-count" class="results-count" aria-live="polite" aria-atomic="true"></p>
+    <!-- Contador de resultados + orden -->
+    <div class="results-row">
+      <p id="results-count" class="results-count" aria-live="polite" aria-atomic="true"></p>
+      <select id="sort-select" class="sort-select" aria-label="Ordenar productos">
+        <option value="">Orden: relevancia</option>
+        <option value="ventas_desc">Más vendidos</option>
+        <option value="clientes_desc">Más solicitados</option>
+        <option value="disponible_primero">Disponibles primero</option>
+        <option value="nombre_asc">Nombre A-Z</option>
+        <option value="nombre_desc">Nombre Z-A</option>
+      </select>
+    </div>
 
     <!-- Grid de productos -->
     <div id="product-grid" class="product-grid" role="list"></div>

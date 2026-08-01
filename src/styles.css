@@ -288,7 +288,23 @@ body.modal-open { overflow: hidden; }
 .chip--active { background: var(--accent); border-color: var(--accent); color: var(--white); }
 .chip--active:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: var(--white); }
 
-.results-count { font-size: var(--text-sm); color: var(--text-muted); margin-bottom: var(--space-4); min-height: 1.25rem; }
+.results-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
+.results-count { font-size: var(--text-sm); color: var(--text-muted); min-height: 1.25rem; margin: 0; }
+.sort-select {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  font-size: var(--text-sm);
+  background: var(--surface);
+  color: var(--text-primary);
+}
 
 /* ── Grid de productos ────────────────────────────────────────── */
 .product-grid { display: grid; gap: var(--space-4); grid-template-columns: repeat(2, 1fr); }

@@ -52,6 +52,7 @@ const ICON_REPEAT = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox
 let products = [];
 let activeCategories = new Set();
 let searchQuery = '';
+let activeSort = '';
 let cart = loadCart(); // Map<sku, qty>
 let lastOrderText = '';
 let lastClientName = '';
@@ -64,6 +65,7 @@ const el = {
   searchSuggestions: document.getElementById('search-suggestions'),
   categoryChips: document.getElementById('category-chips'),
   resultsCount: document.getElementById('results-count'),
+  sortSelect: document.getElementById('sort-select'),
   productGrid: document.getElementById('product-grid'),
 
   btnCartHeader: document.getElementById('btn-cart-header'),
@@ -261,10 +263,19 @@ function renderCategoryChips() {
   el.categoryChips.innerHTML = allChip + chips;
 }
 
+const DISPONIBILIDAD_RANK = { disponible: 0, a_consultar: 1, sin_stock: 2 };
+const SORTERS = {
+  ventas_desc: (a, b) => (b.unidadesPeriodo || 0) - (a.unidadesPeriodo || 0),
+  clientes_desc: (a, b) => (b.clientesDistintos || 0) - (a.clientesDistintos || 0),
+  disponible_primero: (a, b) => (DISPONIBILIDAD_RANK[a.disponibilidad] ?? 9) - (DISPONIBILIDAD_RANK[b.disponibilidad] ?? 9),
+  nombre_asc: (a, b) => a.name.localeCompare(b.name, 'es'),
+  nombre_desc: (a, b) => b.name.localeCompare(a.name, 'es'),
+};
+
 /* ── Render: grid de productos ────────────────────────────────── */
 function filterProducts() {
   const query = normalize(searchQuery.trim());
-  return products.filter((p) => {
+  const filtered = products.filter((p) => {
     const matchesCategory = activeCategories.size === 0 || activeCategories.has(p.category);
     if (!matchesCategory) return false;
     if (!query) return true;
@@ -274,6 +285,7 @@ function filterProducts() {
       p.barcode.includes(query)
     );
   });
+  return SORTERS[activeSort] ? [...filtered].sort(SORTERS[activeSort]) : filtered;
 }
 
 function renderProductGrid() {
@@ -793,6 +805,11 @@ function bindStaticEvents() {
     else if (activeCategories.has(cat)) activeCategories.delete(cat);
     else activeCategories.add(cat);
     renderCategoryChips();
+    renderProductGrid();
+  });
+
+  el.sortSelect.addEventListener('change', () => {
+    activeSort = el.sortSelect.value;
     renderProductGrid();
   });
 
