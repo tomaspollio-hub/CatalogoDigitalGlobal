@@ -13,6 +13,28 @@ const AVAILABILITY_LABEL = {
   sin_stock: 'Sin stock',
 };
 
+/* Nombre de categoría pensado para cómo lo buscaría un cliente (farmacia
+   comprando mayorista), no como quedó cargado en el sistema de facturación
+   de origen. El valor real de `category` no cambia — solo el texto mostrado. */
+const CATEGORY_DISPLAY_NAME = {
+  'Otros Medicamentos': 'Medicamentos',
+  'Cosmética y Cuidado Personal': 'Perfumería y Cosmética',
+  'Insumos Descartables': 'Descartables e Insumos Médicos',
+  'Antisépticos y Curación': 'Curación y Antisépticos',
+  'Limpieza': 'Limpieza y Hogar',
+  'Pañales y Cuidado Infantil': 'Pañales',
+  'Ortopedia': 'Ortopedia y Movilidad',
+  'Alimentos y Snacks': 'Alimentos y Bebidas',
+  'Higiene Dental': 'Cuidado Dental',
+  'Bebés y Puericultura': 'Bebés y Maternidad',
+  'Varios': 'Otros Productos',
+  'Cuidado Ocular': 'Cuidado de los Ojos',
+};
+
+function displayCategory(category) {
+  return CATEGORY_DISPLAY_NAME[category] || category;
+}
+
 const ICON_PLUS = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>`;
 const ICON_MINUS = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" /></svg>`;
 const ICON_CART_PLUS = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.962-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>`;
@@ -229,10 +251,12 @@ function bumpCartButton() {
 
 /* ── Render: chips de categoría ───────────────────────────────── */
 function renderCategoryChips() {
-  const categories = [...new Set(products.map((p) => p.category))].sort((a, b) => a.localeCompare(b, 'es'));
+  const categories = [...new Set(products.map((p) => p.category))].sort((a, b) =>
+    displayCategory(a).localeCompare(displayCategory(b), 'es')
+  );
   const allChip = `<button class="chip ${activeCategories.size === 0 ? 'chip--active' : ''}" data-category="" type="button">Todos</button>`;
   const chips = categories
-    .map((cat) => `<button class="chip ${activeCategories.has(cat) ? 'chip--active' : ''}" data-category="${escapeHtml(cat)}" type="button">${escapeHtml(cat)}</button>`)
+    .map((cat) => `<button class="chip ${activeCategories.has(cat) ? 'chip--active' : ''}" data-category="${escapeHtml(cat)}" type="button">${escapeHtml(displayCategory(cat))}</button>`)
     .join('');
   el.categoryChips.innerHTML = allChip + chips;
 }
@@ -272,7 +296,7 @@ function renderProductCard(product) {
         <img class="product-card__img" src="${product.image || PLACEHOLDER_IMG}" alt="${escapeHtml(product.name)}" loading="lazy" />
       </div>
       <div class="product-card__body">
-        <span class="product-card__category">${escapeHtml(product.category)}</span>
+        <span class="product-card__category">${escapeHtml(displayCategory(product.category))}</span>
         <span class="product-card__name">${escapeHtml(product.name)}</span>
         <div class="product-card__meta-row">
           <span class="product-card__presentation">${escapeHtml(product.presentation)}</span>
@@ -319,7 +343,7 @@ function renderSearchSuggestions() {
     .map((p) => `
       <button type="button" class="search-suggestion" data-sku="${p.sku}">
         <span>${escapeHtml(p.name)}</span>
-        <span class="search-suggestion__category">${escapeHtml(p.category)} · ${escapeHtml(p.presentation)}</span>
+        <span class="search-suggestion__category">${escapeHtml(displayCategory(p.category))} · ${escapeHtml(p.presentation)}</span>
       </button>
     `)
     .join('');
@@ -344,7 +368,7 @@ function openProductModal(sku) {
       <img class="modal__img" src="${product.image || PLACEHOLDER_IMG}" alt="${escapeHtml(product.name)}" />
     </div>
     <div class="modal__body">
-      <span class="product-card__category">${escapeHtml(product.category)}</span>
+      <span class="product-card__category">${escapeHtml(displayCategory(product.category))}</span>
       <h2 class="modal__name">${escapeHtml(product.name)}</h2>
       <p class="modal__presentation">${escapeHtml(product.presentation)}</p>
       <div class="modal__meta">
@@ -426,7 +450,7 @@ function renderCheckoutForm(items) {
           .map(
             ([category, list]) => `
           <div>
-            <div class="confirm-category__title">${escapeHtml(category)}</div>
+            <div class="confirm-category__title">${escapeHtml(displayCategory(category))}</div>
             ${list
               .map(
                 ({ product, qty }) => `
@@ -541,7 +565,7 @@ function buildOrderText(items, client) {
 
   for (const [category, list] of Object.entries(grouped)) {
     lines.push('');
-    lines.push(category.toUpperCase());
+    lines.push(displayCategory(category).toUpperCase());
     for (const { product, qty } of list) {
       lines.push(`- ${product.name} (Cód. barras ${product.barcode}) x${qty} — ${product.presentation}`);
     }
