@@ -1,0 +1,14 @@
+node_modules
+migrations
+tools
+wrangler.toml
+package.json
+package-lock.json
+README.md
+.claude
+.git
+.gitignore
+.env
+.env.*
+.dev.vars
+.dev.vars.*

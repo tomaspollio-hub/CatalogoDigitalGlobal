@@ -1,0 +1,4 @@
+# Copiar a `.dev.vars` (gitignoreado) para correr `npm run dev` localmente
+# con la API key real. En producción, esto se setea con
+# `wrangler pages secret put BARCODE_LOOKUP_API_KEY`, nunca en un archivo.
+BARCODE_LOOKUP_API_KEY=

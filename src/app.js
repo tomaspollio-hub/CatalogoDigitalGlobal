@@ -73,7 +73,7 @@ async function init() {
   el.businessName.textContent = CONFIG.businessName;
   el.businessTagline.textContent = CONFIG.businessTagline;
 
-  const res = await fetch('src/products.json');
+  const res = await fetch('/products.json');
   products = await res.json();
 
   renderCategoryChips();

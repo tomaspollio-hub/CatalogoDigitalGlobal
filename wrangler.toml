@@ -1,0 +1,28 @@
+name = "catalogo-farmacias-global"
+compatibility_date = "2026-07-01"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "catalogo-farmacias-global-db"
+database_id = "01820190-602f-4f01-a248-b58767c61526"
+
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "catalogo-farmacias-global-images"
+
+# Secrets (nunca acá): BARCODE_LOOKUP_API_KEY.
+# Configurar con:
+#   wrangler pages secret put BARCODE_LOOKUP_API_KEY --project-name=catalogo-farmacias-global
+# Variables no sensibles (con valor por defecto) en [vars]:
+[vars]
+PRODUCT_IMAGE_PROVIDER = "barcode_lookup"
+BARCODE_LOOKUP_DAILY_LIMIT = "100"
+PRODUCT_IMAGE_MAX_SIZE_MB = "10"
+PRODUCT_IMAGE_MIN_WIDTH = "600"
+PRODUCT_IMAGE_MIN_HEIGHT = "600"
+# Team domain y AUD de la aplicación de Cloudflare Access que protege /admin/*
+# (no son secretos: viajan igual dentro del JWT firmado). Completar tras crear
+# la aplicación de Access en el dashboard — ver README.
+CF_ACCESS_TEAM_DOMAIN = "tomaspollio.cloudflareaccess.com"
+CF_ACCESS_AUD = "0a3c2858441035b9e65bfa74d259dd300217e73417ca00853c8adeddf61dbb49"

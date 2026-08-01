@@ -1,0 +1,20 @@
+{
+  "name": "catalogo-farmacias-global",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sitio estático (catálogo público) + Cloudflare Pages Functions (herramienta admin de imágenes de producto).",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler pages dev . --d1=DB --r2=IMAGES",
+    "test": "node --test functions/_lib",
+    "d1:migrate:local": "wrangler d1 migrations apply catalogo-farmacias-global-db --local",
+    "d1:migrate:remote": "wrangler d1 migrations apply catalogo-farmacias-global-db --remote",
+    "deploy": "wrangler pages deploy . --project-name=catalogo-farmacias-global"
+  },
+  "devDependencies": {
+    "wrangler": "^4.86.0"
+  },
+  "dependencies": {
+    "@cf-wasm/photon": "^0.3.7"
+  }
+}
