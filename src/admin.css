@@ -144,6 +144,24 @@
   gap: var(--space-3);
 }
 .edit-ficha-form .search-actions { grid-column: 1 / -1; }
+.edit-ficha-form textarea {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  font-size: var(--text-sm);
+  font-family: inherit;
+  resize: vertical;
+}
+.edit-ficha-form select,
+.edit-ficha-form input[type="file"] {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  font-size: var(--text-sm);
+  background: var(--surface);
+  color: var(--text-primary);
+}
+.edit-ficha-form .review-confirm { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); }
 .badge-medication {
   display: inline-block;
   margin-top: var(--space-1);

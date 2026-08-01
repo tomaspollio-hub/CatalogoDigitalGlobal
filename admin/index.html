@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Buscar imagen del producto — Admin</title>
+  <title>Backoffice de catálogo — Admin</title>
   <link rel="stylesheet" href="../src/styles.css" />
   <link rel="stylesheet" href="../src/admin.css" />
 </head>
 <body>
   <div class="admin-page">
     <header class="admin-header">
-      <h1>Buscar imagen del producto</h1>
+      <h1>Backoffice de catálogo</h1>
       <div class="admin-usage" id="usage-banner">Cargando uso de la API…</div>
     </header>
 
@@ -43,45 +43,9 @@
       <div id="selected-product-card" class="selected-product-card" hidden></div>
     </section>
 
-    <section class="admin-panel" id="search-form-section" hidden>
-      <h2>2. Buscador</h2>
-      <div class="field-grid">
-        <div class="field">
-          <label for="field-barcode">Código de barras (GTIN / EAN / UPC)</label>
-          <input id="field-barcode" type="text" />
-        </div>
-        <div class="field">
-          <label for="field-title">Título</label>
-          <input id="field-title" type="text" />
-        </div>
-        <div class="field">
-          <label for="field-brand">Marca</label>
-          <input id="field-brand" type="text" />
-        </div>
-        <div class="field">
-          <label for="field-manufacturer">Laboratorio / Fabricante</label>
-          <input id="field-manufacturer" type="text" />
-        </div>
-        <div class="field">
-          <label for="field-presentation">Presentación / contenido</label>
-          <input id="field-presentation" type="text" />
-        </div>
-      </div>
-      <div class="search-actions">
-        <button id="btn-search-barcode" class="btn btn--primary">Buscar por código</button>
-        <button id="btn-search-text" class="btn btn--secondary">Buscar por texto</button>
-      </div>
-      <p id="search-status" class="search-status"></p>
-    </section>
-
     <section class="admin-panel" id="history-section" hidden>
       <h2>Historial de imágenes de este producto</h2>
       <div id="history-grid" class="history-grid"></div>
-    </section>
-
-    <section class="admin-panel" id="results-section" hidden>
-      <h2>3. Resultados</h2>
-      <div id="results-grid" class="results-grid"></div>
     </section>
   </div>
 

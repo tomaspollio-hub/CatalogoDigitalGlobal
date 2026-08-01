@@ -21,15 +21,6 @@ const el = {
   productImageFilter: document.getElementById('product-image-filter'),
   productSearchResults: document.getElementById('product-search-results'),
   selectedProductCard: document.getElementById('selected-product-card'),
-  searchFormSection: document.getElementById('search-form-section'),
-  fieldBarcode: document.getElementById('field-barcode'),
-  fieldTitle: document.getElementById('field-title'),
-  fieldBrand: document.getElementById('field-brand'),
-  fieldManufacturer: document.getElementById('field-manufacturer'),
-  fieldPresentation: document.getElementById('field-presentation'),
-  btnSearchBarcode: document.getElementById('btn-search-barcode'),
-  btnSearchText: document.getElementById('btn-search-text'),
-  searchStatus: document.getElementById('search-status'),
   historySection: document.getElementById('history-section'),
   historyGrid: document.getElementById('history-grid'),
   pendingSection: document.getElementById('pending-section'),
@@ -39,15 +30,12 @@ const el = {
   pendingSelectNone: document.getElementById('pending-select-none'),
   pendingApproveSelected: document.getElementById('pending-approve-selected'),
   pendingSelectedCount: document.getElementById('pending-selected-count'),
-  resultsSection: document.getElementById('results-section'),
-  resultsGrid: document.getElementById('results-grid'),
   reviewOverlay: document.getElementById('review-overlay'),
   reviewModal: document.getElementById('review-modal'),
   toastContainer: document.getElementById('toast-container'),
 };
 
 let selectedProduct = null;
-let currentCandidates = [];
 let currentHistoryImages = [];
 let productSearchDebounce = null;
 
@@ -63,8 +51,6 @@ async function init() {
       el.productSearchResults.innerHTML = '';
     }
   });
-  el.btnSearchBarcode.addEventListener('click', () => runSearch('barcode'));
-  el.btnSearchText.addEventListener('click', () => runSearch('text'));
   el.pendingSelectAll.addEventListener('click', () => {
     selectablePendingIds().forEach((id) => pendingSelected.add(id));
     renderPending(pendingItems);
@@ -261,19 +247,16 @@ async function selectProduct(sku) {
   try {
     const { product, images } = await api(`products/${encodeURIComponent(sku)}`);
     selectedProduct = product;
-    currentCandidates = [];
     el.productSearchResults.innerHTML = '';
     el.productSearchInput.value = '';
     renderSelectedProduct(product);
-    prefillSearchForm(product);
     renderHistory(images);
-    el.searchFormSection.hidden = false;
-    el.resultsSection.hidden = true;
-    el.resultsGrid.innerHTML = '';
   } catch (e) {
     showToast(e.message, 'error');
   }
 }
+
+const DISPONIBILIDAD_LABEL = { disponible: 'Disponible', a_consultar: 'A consultar', sin_stock: 'Sin stock (oculto para pedidos)' };
 
 function renderSelectedProduct(product) {
   el.selectedProductCard.hidden = false;
@@ -285,8 +268,9 @@ function renderSelectedProduct(product) {
         <strong>${escapeHtml(product.name)}</strong>
         <span>SKU: ${escapeHtml(product.sku)} · Código de barras: ${escapeHtml(product.barcode || 'sin código')}</span>
         <span>Marca: ${escapeHtml(product.brand || '—')} · Fabricante: ${escapeHtml(product.manufacturer || '—')}</span>
-        <span>Categoría: ${escapeHtml(product.category)} · Presentación: ${escapeHtml(product.presentation || '—')}</span>
-        ${isMedication ? '<span class="badge-medication">Medicamento — revisión obligatoria</span>' : ''}
+        <span>Categoría: ${escapeHtml(product.category)} · Presentación: ${escapeHtml(product.presentation || '—')} · Mínimo de venta: ${product.minMultiple}</span>
+        <span>Disponibilidad: ${escapeHtml(DISPONIBILIDAD_LABEL[product.disponibilidad] || product.disponibilidad)}${product.isHidden ? ' · <strong>OCULTO del catálogo público</strong>' : ''}</span>
+        ${isMedication ? '<span class="badge-medication">Medicamento — revisión obligatoria de imagen</span>' : ''}
       </div>
       <button type="button" class="btn btn--secondary" id="btn-edit-ficha">Editar ficha</button>
     </div>
@@ -307,6 +291,30 @@ function renderSelectedProduct(product) {
         <label for="ficha-presentation">Presentación</label>
         <input id="ficha-presentation" type="text" value="${escapeHtml(product.presentation || '')}" />
       </div>
+      <div class="field">
+        <label for="ficha-min-multiple">Mínimo de venta (pack / caja)</label>
+        <input id="ficha-min-multiple" type="number" min="1" step="1" value="${product.minMultiple}" />
+      </div>
+      <div class="field">
+        <label for="ficha-disponibilidad">Disponibilidad</label>
+        <select id="ficha-disponibilidad">
+          <option value="disponible" ${product.disponibilidad === 'disponible' ? 'selected' : ''}>Disponible</option>
+          <option value="a_consultar" ${product.disponibilidad === 'a_consultar' ? 'selected' : ''}>A consultar</option>
+          <option value="sin_stock" ${product.disponibilidad === 'sin_stock' ? 'selected' : ''}>Sin stock</option>
+        </select>
+      </div>
+      <div class="field" style="grid-column: 1 / -1;">
+        <label for="ficha-description">Descripción</label>
+        <textarea id="ficha-description" rows="3">${escapeHtml(product.description || '')}</textarea>
+      </div>
+      <div class="field">
+        <label for="ficha-hidden">Visibilidad en el catálogo</label>
+        <label class="review-confirm"><input type="checkbox" id="ficha-hidden" ${product.isHidden ? 'checked' : ''} /> Ocultar este producto del catálogo público</label>
+      </div>
+      <div class="field">
+        <label for="ficha-image-upload">Imagen (subir archivo directo)</label>
+        <input id="ficha-image-upload" type="file" accept="image/png,image/jpeg,image/webp" />
+      </div>
       <div class="search-actions">
         <button type="submit" class="btn btn--primary">Guardar cambios</button>
         <button type="button" class="btn btn--secondary" id="btn-cancel-ficha">Cancelar</button>
@@ -326,6 +334,10 @@ function renderSelectedProduct(product) {
     e.preventDefault();
     saveProductFicha(product.sku);
   });
+  document.getElementById('ficha-image-upload').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) uploadProductImage(product.sku, file);
+  });
 }
 
 async function saveProductFicha(sku) {
@@ -335,6 +347,10 @@ async function saveProductFicha(sku) {
       brand: document.getElementById('ficha-brand').value.trim(),
       manufacturer: document.getElementById('ficha-manufacturer').value.trim(),
       presentation: document.getElementById('ficha-presentation').value.trim(),
+      description: document.getElementById('ficha-description').value.trim(),
+      minMultiple: Number(document.getElementById('ficha-min-multiple').value) || 1,
+      disponibilidad: document.getElementById('ficha-disponibilidad').value,
+      isHidden: document.getElementById('ficha-hidden').checked,
     };
     await api(`products/${encodeURIComponent(sku)}`, { method: 'PUT', body: JSON.stringify(fields) });
     showToast('Ficha actualizada.', 'success');
@@ -347,12 +363,32 @@ async function saveProductFicha(sku) {
   }
 }
 
-function prefillSearchForm(product) {
-  el.fieldBarcode.value = product.barcode || '';
-  el.fieldTitle.value = product.name || '';
-  el.fieldBrand.value = product.brand || '';
-  el.fieldManufacturer.value = product.manufacturer || '';
-  el.fieldPresentation.value = product.presentation || '';
+/* ── Carga manual de imagen ──────────────────────────────────────── */
+async function uploadProductImage(sku, file) {
+  showToast('Subiendo y normalizando imagen…');
+  try {
+    const res = await fetch(`api/products/${encodeURIComponent(sku)}/image`, {
+      method: 'POST',
+      headers: { 'Content-Type': file.type || 'application/octet-stream' },
+      body: file,
+    });
+    const result = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(result.error || 'No se pudo subir la imagen.');
+
+    const candidate = {
+      imageUrl: URL.createObjectURL(file),
+      title: selectedProduct.name,
+      brand: selectedProduct.brand,
+      manufacturer: selectedProduct.manufacturer,
+      description: selectedProduct.presentation,
+      barcode: selectedProduct.barcode,
+      sourceName: 'Carga manual',
+      barcodeMismatch: false,
+    };
+    openReviewPanel(result, candidate);
+  } catch (e) {
+    showToast(e.message, 'error');
+  }
 }
 
 /* ── Historial ────────────────────────────────────────────────── */
@@ -490,108 +526,13 @@ async function deleteImage(id) {
   }
 }
 
-/* ── Búsqueda ─────────────────────────────────────────────────── */
-async function runSearch(type) {
-  if (!selectedProduct) return;
-  el.searchStatus.textContent = 'Buscando…';
-  el.resultsGrid.innerHTML = '';
-  el.resultsSection.hidden = false;
-
-  try {
-    const body =
-      type === 'barcode'
-        ? { sku: selectedProduct.sku, barcode: el.fieldBarcode.value.trim() }
-        : {
-            sku: selectedProduct.sku,
-            title: el.fieldTitle.value.trim(),
-            brand: el.fieldBrand.value.trim(),
-            manufacturer: el.fieldManufacturer.value.trim(),
-            presentation: el.fieldPresentation.value.trim(),
-          };
-
-    const data = await api(`search/${type}`, { method: 'POST', body: JSON.stringify(body) });
-    currentCandidates = data.candidates || [];
-    refreshUsage();
-
-    if (currentCandidates.length === 0) {
-      el.searchStatus.textContent =
-        type === 'barcode'
-          ? 'No encontramos una imagen para este código de barras. Probá buscar por título, marca y presentación.'
-          : 'No encontramos resultados con esos datos. Probá ajustar el título, la marca o la presentación.';
-      el.resultsGrid.innerHTML = '';
-      return;
-    }
-
-    el.searchStatus.textContent = `${currentCandidates.length} candidato(s) encontrados.`;
-    renderResultsGrid();
-  } catch (e) {
-    el.searchStatus.textContent = e.message;
-    showToast(e.message, 'error');
-  }
-}
-
 function confidenceLevel(score) {
   if (score >= 80) return 'alta';
   if (score >= 50) return 'media';
   return 'baja';
 }
 
-function renderResultsGrid() {
-  el.resultsGrid.innerHTML = currentCandidates
-    .map((c, index) => {
-      const level = confidenceLevel(c.confidenceScore);
-      return `
-      <div class="candidate-card">
-        <img src="${escapeHtml(c.imageUrl)}" alt="" loading="lazy" />
-        <div class="candidate-card__body">
-          <span class="confidence-badge confidence-badge--${level}">${c.confidenceScore} · ${CONFIDENCE_LABEL[level]}</span>
-          ${c.barcodeMismatch ? `<div class="barcode-warning">⚠ Código de barras distinto al del producto</div>` : ''}
-          <span class="candidate-card__title">${escapeHtml(c.title)}</span>
-          <span class="candidate-card__meta">${escapeHtml(c.brand || '—')} · ${escapeHtml(c.manufacturer || '—')}</span>
-          <span class="candidate-card__meta">Código: ${escapeHtml(c.barcode || '—')} · Fuente: ${escapeHtml(c.sourceName)}</span>
-          ${c.matchReasons?.length ? `<ul class="match-reasons">${c.matchReasons.map((r) => `<li>${escapeHtml(r)}</li>`).join('')}</ul>` : ''}
-          <div class="candidate-card__actions">
-            <a class="btn btn--secondary" href="${escapeHtml(c.imageUrl)}" target="_blank" rel="noopener noreferrer">Ver imagen</a>
-            <button class="btn btn--primary" data-action="select-candidate" data-index="${index}">Seleccionar</button>
-            <button class="btn btn--secondary" data-action="discard-candidate" data-index="${index}">Descartar</button>
-          </div>
-        </div>
-      </div>`;
-    })
-    .join('');
-
-  el.resultsGrid.querySelectorAll('[data-action="select-candidate"]').forEach((btn) => {
-    btn.addEventListener('click', () => selectCandidate(Number(btn.dataset.index)));
-  });
-  el.resultsGrid.querySelectorAll('[data-action="discard-candidate"]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      currentCandidates.splice(Number(btn.dataset.index), 1);
-      renderResultsGrid();
-    });
-  });
-}
-
-/* ── Selección → descarga → normalización → revisión ─────────── */
-async function selectCandidate(index) {
-  const candidate = currentCandidates[index];
-  const searchType = el.fieldBarcode.value.trim() === candidate.barcode ? 'barcode' : 'text';
-  const searchQuery = searchType === 'barcode' ? el.fieldBarcode.value.trim() : el.fieldTitle.value.trim();
-
-  showToast('Descargando y normalizando imagen…');
-  try {
-    const result = await api('candidates/process', {
-      method: 'POST',
-      body: JSON.stringify({
-        productId: selectedProduct.sku,
-        candidate: { ...candidate, searchType, searchQuery },
-      }),
-    });
-    openReviewPanel(result, candidate);
-  } catch (e) {
-    showToast(e.message, 'error');
-  }
-}
-
+/** Revisión de una imagen recién subida a mano (ver uploadProductImage) o, históricamente, encontrada por un lote automático. */
 function openReviewPanel(processResult, candidate) {
   const isMedication = selectedProduct.categoryGroup === 'medicamento';
   const group = selectedProduct.categoryGroup;

@@ -149,9 +149,7 @@ export async function deleteProductImage(db, id) {
   await db.prepare('DELETE FROM product_images WHERE id = ?').bind(id).run();
 }
 
-/** @param {D1Database} db */
-export async function getProductOverride(db, productId) {
-  const row = await db.prepare('SELECT * FROM product_overrides WHERE product_id = ?').bind(productId).first();
+function rowToProductOverride(row) {
   if (!row) return null;
   return {
     productId: row.product_id,
@@ -159,42 +157,42 @@ export async function getProductOverride(db, productId) {
     brand: row.brand || undefined,
     manufacturer: row.manufacturer || undefined,
     presentation: row.presentation || undefined,
+    description: row.description || undefined,
+    minMultiple: row.min_multiple ?? undefined,
+    disponibilidad: row.disponibilidad || undefined,
+    isHidden: !!row.is_hidden,
     updatedBy: row.updated_by,
     updatedAt: row.updated_at,
   };
 }
 
-/** Todos los overrides de ficha de producto — usado para pisar el catálogo público. */
-export async function getAllProductOverrides(db) {
-  const { results } = await db.prepare('SELECT * FROM product_overrides').all();
-  return new Map(
-    results.map((row) => [
-      row.product_id,
-      {
-        name: row.name || undefined,
-        brand: row.brand || undefined,
-        manufacturer: row.manufacturer || undefined,
-        presentation: row.presentation || undefined,
-      },
-    ])
-  );
+/** @param {D1Database} db */
+export async function getProductOverride(db, productId) {
+  const row = await db.prepare('SELECT * FROM product_overrides WHERE product_id = ?').bind(productId).first();
+  return rowToProductOverride(row);
 }
 
 /**
  * Crea o reemplaza la ficha editada de un producto. Campos vacíos/omitidos
- * se guardan como NULL (sin override para ese campo puntual).
+ * se guardan como NULL (sin override para ese campo puntual). isHidden
+ * siempre se guarda explícito (no tiene estado "sin override").
  * @param {D1Database} db
  */
 export async function upsertProductOverride(db, productId, fields, updatedBy) {
   await db
     .prepare(
-      `INSERT INTO product_overrides (product_id, name, brand, manufacturer, presentation, updated_by, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, datetime('now'))
+      `INSERT INTO product_overrides
+        (product_id, name, brand, manufacturer, presentation, description, min_multiple, disponibilidad, is_hidden, updated_by, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
        ON CONFLICT(product_id) DO UPDATE SET
          name = excluded.name,
          brand = excluded.brand,
          manufacturer = excluded.manufacturer,
          presentation = excluded.presentation,
+         description = excluded.description,
+         min_multiple = excluded.min_multiple,
+         disponibilidad = excluded.disponibilidad,
+         is_hidden = excluded.is_hidden,
          updated_by = excluded.updated_by,
          updated_at = excluded.updated_at`
     )
@@ -204,6 +202,10 @@ export async function upsertProductOverride(db, productId, fields, updatedBy) {
       fields.brand || null,
       fields.manufacturer || null,
       fields.presentation || null,
+      fields.description || null,
+      fields.minMultiple || null,
+      fields.disponibilidad || null,
+      fields.isHidden ? 1 : 0,
       updatedBy
     )
     .run();

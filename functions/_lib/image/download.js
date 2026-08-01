@@ -10,7 +10,7 @@ const MAGIC_BYTES = [
   { mime: 'image/gif', bytes: [0x47, 0x49, 0x46, 0x38] },
 ];
 
-function sniffMimeType(bytes) {
+export function sniffMimeType(bytes) {
   for (const sig of MAGIC_BYTES) {
     const matches = sig.bytes.every((b, i) => bytes[i] === b);
     if (!matches) continue;

@@ -27,18 +27,23 @@ export async function onRequestGet(context) {
   );
   const fichaByProductId = new Map(overridesResult.results.map((row) => [row.product_id, row]));
 
-  const merged = products.map((product) => {
-    const image = imageByProductId.get(product.sku);
-    const ficha = fichaByProductId.get(product.sku);
-    return {
-      ...product,
-      image: image ? image.image : product.image,
-      name: ficha?.name || image?.name || product.name,
-      brand: ficha?.brand || product.brand,
-      manufacturer: ficha?.manufacturer || product.manufacturer,
-      presentation: ficha?.presentation || product.presentation,
-    };
-  });
+  const merged = products
+    .filter((product) => !fichaByProductId.get(product.sku)?.is_hidden)
+    .map((product) => {
+      const image = imageByProductId.get(product.sku);
+      const ficha = fichaByProductId.get(product.sku);
+      return {
+        ...product,
+        image: image ? image.image : product.image,
+        name: ficha?.name || image?.name || product.name,
+        brand: ficha?.brand || product.brand,
+        manufacturer: ficha?.manufacturer || product.manufacturer,
+        presentation: ficha?.presentation || product.presentation,
+        description: ficha?.description || product.description,
+        minMultiple: ficha?.min_multiple || product.minMultiple,
+        disponibilidad: ficha?.disponibilidad || product.disponibilidad,
+      };
+    });
 
   return json(merged, { headers: { 'Cache-Control': 'public, max-age=60' } });
 }
