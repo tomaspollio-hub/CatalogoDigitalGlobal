@@ -89,6 +89,12 @@ export async function getApprovedPrimaryThumbnails(db) {
   return new Map(results.map((r) => [r.product_id, r.thumbnail_storage_path]));
 }
 
+/** SKUs ocultos del catálogo público — para mostrar el estado en la grilla del admin. */
+export async function getHiddenProductIds(db) {
+  const { results } = await db.prepare('SELECT product_id FROM product_overrides WHERE is_hidden = 1').all();
+  return new Set(results.map((r) => r.product_id));
+}
+
 /** Todas las imágenes esperando revisión humana, sin importar el producto — para el panel global de pendientes. */
 export async function getPendingReviewImages(db, limit = 300) {
   const { results } = await db

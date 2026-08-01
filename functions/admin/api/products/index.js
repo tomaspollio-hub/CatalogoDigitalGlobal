@@ -1,5 +1,5 @@
 import { searchProductsAdvanced, ALL_CATEGORIES } from '../../../_lib/products.js';
-import { getApprovedPrimaryThumbnails } from '../../../_lib/db/queries.js';
+import { getApprovedPrimaryThumbnails, getHiddenProductIds } from '../../../_lib/db/queries.js';
 import { json } from '../../../_lib/http.js';
 
 export async function onRequestGet(context) {
@@ -10,7 +10,10 @@ export async function onRequestGet(context) {
   const hasImageParam = url.searchParams.get('hasImage');
   const hasImage = hasImageParam === 'true' ? true : hasImageParam === 'false' ? false : undefined;
 
-  const thumbnailByProductId = await getApprovedPrimaryThumbnails(env.DB);
+  const [thumbnailByProductId, hiddenSkuSet] = await Promise.all([
+    getApprovedPrimaryThumbnails(env.DB),
+    getHiddenProductIds(env.DB),
+  ]);
   const approvedSkuSet = new Set(thumbnailByProductId.keys());
 
   const matched = searchProductsAdvanced({ query: q, category, hasImage }, approvedSkuSet, 500);
@@ -26,6 +29,7 @@ export async function onRequestGet(context) {
       category: p.category,
       presentation: p.presentation,
       image: thumbnailPath ? `/img/${thumbnailPath}` : null,
+      isHidden: hiddenSkuSet.has(p.sku),
     };
   });
   return json({ products: results, categories: ALL_CATEGORIES });

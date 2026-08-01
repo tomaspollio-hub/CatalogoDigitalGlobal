@@ -32,7 +32,13 @@ export async function onRequestGet(context) {
   });
 }
 
-/** Guarda/actualiza la ficha editable del producto (nombre, marca, fabricante, presentación, descripción, mínimo, disponibilidad, ocultar). */
+/**
+ * Guarda/actualiza la ficha editable del producto (nombre, marca, fabricante,
+ * presentación, descripción, mínimo, disponibilidad, ocultar). Actualización
+ * parcial: un campo ausente en el body conserva el valor ya guardado (no lo
+ * borra) — esto permite, por ejemplo, ocultar un producto en masa sin pisar
+ * el resto de la ficha que ya se haya editado antes.
+ */
 export async function onRequestPut(context) {
   const { sku } = context.params;
   const product = findProductBySku(sku);
@@ -45,15 +51,18 @@ export async function onRequestPut(context) {
     return errorResponse(400, e.code);
   }
 
+  const existing = await getProductOverride(context.env.DB, sku);
+
   const fields = {};
   for (const key of TEXT_FIELDS) {
-    if (typeof body[key] === 'string') fields[key] = body[key].trim();
+    fields[key] = typeof body[key] === 'string' ? body[key].trim() : existing?.[key];
   }
-  if (Number.isInteger(body.minMultiple) && body.minMultiple > 0) fields.minMultiple = body.minMultiple;
-  if (typeof body.disponibilidad === 'string' && DISPONIBILIDAD_VALUES.has(body.disponibilidad)) {
-    fields.disponibilidad = body.disponibilidad;
-  }
-  fields.isHidden = !!body.isHidden;
+  fields.minMultiple = Number.isInteger(body.minMultiple) && body.minMultiple > 0 ? body.minMultiple : existing?.minMultiple;
+  fields.disponibilidad =
+    typeof body.disponibilidad === 'string' && DISPONIBILIDAD_VALUES.has(body.disponibilidad)
+      ? body.disponibilidad
+      : existing?.disponibilidad;
+  fields.isHidden = typeof body.isHidden === 'boolean' ? body.isHidden : existing?.isHidden || false;
 
   const adminEmail = context.data.adminEmail;
   await upsertProductOverride(context.env.DB, sku, fields, adminEmail);

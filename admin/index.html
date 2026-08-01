@@ -32,6 +32,13 @@
         </div>
       </div>
       <p id="product-results-count" class="admin-hint"></p>
+      <div class="pending-bulk-actions">
+        <button class="btn btn--secondary" id="product-select-all">Seleccionar todos</button>
+        <button class="btn btn--secondary" id="product-select-none">Deseleccionar todos</button>
+        <span class="admin-hint" id="product-selected-count" style="margin: 0 var(--space-2);">0 seleccionados</span>
+        <button class="btn btn--secondary" id="product-hide-selected" disabled>Ocultar seleccionados</button>
+        <button class="btn btn--success" id="product-unhide-selected" disabled>Publicar seleccionados</button>
+      </div>
       <div id="product-search-results" class="product-list-grid"></div>
       <div id="selected-product-card" class="selected-product-card" hidden></div>
     </section>

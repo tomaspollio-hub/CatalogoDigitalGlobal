@@ -22,6 +22,11 @@ const el = {
   productImageFilter: document.getElementById('product-image-filter'),
   productResultsCount: document.getElementById('product-results-count'),
   productSearchResults: document.getElementById('product-search-results'),
+  productSelectAll: document.getElementById('product-select-all'),
+  productSelectNone: document.getElementById('product-select-none'),
+  productSelectedCount: document.getElementById('product-selected-count'),
+  productHideSelected: document.getElementById('product-hide-selected'),
+  productUnhideSelected: document.getElementById('product-unhide-selected'),
   selectedProductCard: document.getElementById('selected-product-card'),
   historySection: document.getElementById('history-section'),
   historyGrid: document.getElementById('history-grid'),
@@ -41,6 +46,8 @@ let selectedProduct = null;
 let currentHistoryImages = [];
 let productSearchDebounce = null;
 let categoriesLoaded = false;
+let lastSearchResults = [];
+const productListSelected = new Set();
 
 init();
 
@@ -51,6 +58,16 @@ async function init() {
   el.productCategoryFilter.addEventListener('change', onProductSearchInput);
   el.productImageFilter.addEventListener('change', onProductSearchInput);
   onProductSearchInput(); // muestra la lista completa (sin filtros) apenas carga la página
+  el.productSelectAll.addEventListener('click', () => {
+    lastSearchResults.forEach((p) => productListSelected.add(p.sku));
+    renderProductSearchResults(lastSearchResults);
+  });
+  el.productSelectNone.addEventListener('click', () => {
+    productListSelected.clear();
+    renderProductSearchResults(lastSearchResults);
+  });
+  el.productHideSelected.addEventListener('click', () => bulkSetHidden(true));
+  el.productUnhideSelected.addEventListener('click', () => bulkSetHidden(false));
   el.pendingSelectAll.addEventListener('click', () => {
     selectablePendingIds().forEach((id) => pendingSelected.add(id));
     renderPending(pendingItems);
@@ -234,27 +251,69 @@ function populateCategoryFilter(categories) {
 }
 
 function renderProductSearchResults(products) {
+  lastSearchResults = products;
   el.productResultsCount.textContent = `${products.length} producto${products.length !== 1 ? 's' : ''} encontrado${products.length !== 1 ? 's' : ''}`;
   if (products.length === 0) {
     el.productSearchResults.innerHTML = `<p class="admin-hint">Sin resultados.</p>`;
-    return;
+  } else {
+    el.productSearchResults.innerHTML = products
+      .map(
+        (p) => `
+        <div class="product-list-card">
+          <label class="pending-select"><input type="checkbox" data-select-sku="${escapeHtml(p.sku)}" ${productListSelected.has(p.sku) ? 'checked' : ''} /></label>
+          <button type="button" class="product-list-card__open" data-sku="${escapeHtml(p.sku)}">
+            <img src="${p.image ? escapeHtml(p.image) : '../public/img/placeholder.svg'}" alt="" loading="lazy" />
+            <div class="product-list-card__body">
+              <strong>${escapeHtml(p.name)}</strong>
+              <span>${escapeHtml(p.brand || 'Sin marca')} · ${escapeHtml(p.barcode || 'sin código')}</span>
+              <span>${escapeHtml(p.category)}</span>
+              ${p.isHidden ? '<span class="badge-hidden">Oculto</span>' : ''}
+            </div>
+          </button>
+        </div>`
+      )
+      .join('');
+    el.productSearchResults.querySelectorAll('.product-list-card__open[data-sku]').forEach((item) => {
+      item.addEventListener('click', () => selectProduct(item.dataset.sku));
+    });
+    el.productSearchResults.querySelectorAll('[data-select-sku]').forEach((cb) => {
+      cb.addEventListener('change', () => {
+        if (cb.checked) productListSelected.add(cb.dataset.selectSku);
+        else productListSelected.delete(cb.dataset.selectSku);
+        updateProductSelectionUi();
+      });
+    });
   }
-  el.productSearchResults.innerHTML = products
-    .map(
-      (p) => `
-        <button type="button" class="product-list-card" data-sku="${escapeHtml(p.sku)}">
-          <img src="${p.image ? escapeHtml(p.image) : '../public/img/placeholder.svg'}" alt="" loading="lazy" />
-          <div class="product-list-card__body">
-            <strong>${escapeHtml(p.name)}</strong>
-            <span>${escapeHtml(p.brand || 'Sin marca')} · ${escapeHtml(p.barcode || 'sin código')}</span>
-            <span>${escapeHtml(p.category)}</span>
-          </div>
-        </button>`
-    )
-    .join('');
-  el.productSearchResults.querySelectorAll('.product-list-card[data-sku]').forEach((item) => {
-    item.addEventListener('click', () => selectProduct(item.dataset.sku));
-  });
+  updateProductSelectionUi();
+}
+
+function updateProductSelectionUi() {
+  el.productSelectedCount.textContent = `${productListSelected.size} seleccionados`;
+  el.productHideSelected.disabled = productListSelected.size === 0;
+  el.productUnhideSelected.disabled = productListSelected.size === 0;
+}
+
+async function bulkSetHidden(hidden) {
+  const skus = Array.from(productListSelected);
+  if (skus.length === 0) return;
+  if (!confirm(`¿${hidden ? 'Ocultar' : 'Publicar'} ${skus.length} producto(s) ${hidden ? 'del' : 'en el'} catálogo público?`)) return;
+
+  let okCount = 0;
+  let failCount = 0;
+  for (const sku of skus) {
+    try {
+      await api(`products/${encodeURIComponent(sku)}`, { method: 'PUT', body: JSON.stringify({ isHidden: hidden }) });
+      okCount++;
+    } catch {
+      failCount++;
+    }
+  }
+  showToast(
+    `${hidden ? 'Ocultados' : 'Publicados'}: ${okCount}${failCount ? ` · Fallaron: ${failCount}` : ''}`,
+    failCount ? 'error' : 'success'
+  );
+  productListSelected.clear();
+  runProductSearch();
 }
 
 async function selectProduct(sku) {
