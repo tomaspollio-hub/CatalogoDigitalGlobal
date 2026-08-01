@@ -27,6 +27,8 @@ const PERFUMERY_PERSONAL_CARE_CATEGORIES = new Set([
   'Bebés y Puericultura',
 ]);
 
+export const ALL_CATEGORIES = [...new Set(products.map((p) => p.category))].sort((a, b) => a.localeCompare(b, 'es'));
+
 export function findProductBySku(sku) {
   return products.find((p) => p.sku === sku) || null;
 }
@@ -53,12 +55,13 @@ export function searchProducts(query, limit = 25) {
 }
 
 /**
- * Igual que searchProducts, pero además filtra por si el producto tiene
- * (o no) una imagen aprobada — hasImage: true | false | undefined (sin filtrar).
+ * Búsqueda del backoffice: texto libre + categoría + si tiene (o no) imagen
+ * aprobada. Cualquier filtro es opcional (undefined = sin filtrar por eso).
  * @param {Set<string>} approvedSkuSet SKUs con imagen aprobada y primaria en D1.
  */
-export function searchProductsWithImageFilter(query, hasImage, approvedSkuSet, limit = 25) {
+export function searchProductsAdvanced({ query, category, hasImage }, approvedSkuSet, limit = 500) {
   let list = filterProductsByQuery(query);
+  if (category) list = list.filter((p) => p.category === category);
   if (hasImage === true) list = list.filter((p) => approvedSkuSet.has(p.sku));
   else if (hasImage === false) list = list.filter((p) => !approvedSkuSet.has(p.sku));
   return list.slice(0, limit);

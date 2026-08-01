@@ -18,7 +18,9 @@ const STATUS_LABEL = {
 const el = {
   usageBanner: document.getElementById('usage-banner'),
   productSearchInput: document.getElementById('product-search-input'),
+  productCategoryFilter: document.getElementById('product-category-filter'),
   productImageFilter: document.getElementById('product-image-filter'),
+  productResultsCount: document.getElementById('product-results-count'),
   productSearchResults: document.getElementById('product-search-results'),
   selectedProductCard: document.getElementById('selected-product-card'),
   historySection: document.getElementById('history-section'),
@@ -38,6 +40,7 @@ const el = {
 let selectedProduct = null;
 let currentHistoryImages = [];
 let productSearchDebounce = null;
+let categoriesLoaded = false;
 
 init();
 
@@ -45,12 +48,9 @@ async function init() {
   refreshUsage();
   refreshPending();
   el.productSearchInput.addEventListener('input', onProductSearchInput);
+  el.productCategoryFilter.addEventListener('change', onProductSearchInput);
   el.productImageFilter.addEventListener('change', onProductSearchInput);
-  document.addEventListener('click', (e) => {
-    if (!el.productSearchResults.contains(e.target) && e.target !== el.productSearchInput) {
-      el.productSearchResults.innerHTML = '';
-    }
-  });
+  onProductSearchInput(); // muestra la lista completa (sin filtros) apenas carga la página
   el.pendingSelectAll.addEventListener('click', () => {
     selectablePendingIds().forEach((id) => pendingSelected.add(id));
     renderPending(pendingItems);
@@ -205,40 +205,54 @@ async function reviewFromPendingList(sku, imageId) {
 /* ── Selector de producto ─────────────────────────────────────── */
 function onProductSearchInput() {
   clearTimeout(productSearchDebounce);
+  productSearchDebounce = setTimeout(runProductSearch, 200);
+}
+
+async function runProductSearch() {
   const q = el.productSearchInput.value.trim();
+  const category = el.productCategoryFilter.value;
   const hasImage = el.productImageFilter.value;
-  if (!q && !hasImage) {
-    el.productSearchResults.innerHTML = '';
-    return;
+  try {
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
+    if (category) params.set('category', category);
+    if (hasImage) params.set('hasImage', hasImage);
+    const { products, categories } = await api(`products?${params.toString()}`);
+    if (!categoriesLoaded) populateCategoryFilter(categories);
+    renderProductSearchResults(products);
+  } catch (e) {
+    showToast(e.message, 'error');
   }
-  productSearchDebounce = setTimeout(async () => {
-    try {
-      const params = new URLSearchParams();
-      if (q) params.set('q', q);
-      if (hasImage) params.set('hasImage', hasImage);
-      const { products } = await api(`products?${params.toString()}`);
-      renderProductSearchResults(products);
-    } catch (e) {
-      showToast(e.message, 'error');
-    }
-  }, 250);
+}
+
+function populateCategoryFilter(categories) {
+  categoriesLoaded = true;
+  const options = (categories || [])
+    .map((c) => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`)
+    .join('');
+  el.productCategoryFilter.insertAdjacentHTML('beforeend', options);
 }
 
 function renderProductSearchResults(products) {
+  el.productResultsCount.textContent = `${products.length} producto${products.length !== 1 ? 's' : ''} encontrado${products.length !== 1 ? 's' : ''}`;
   if (products.length === 0) {
-    el.productSearchResults.innerHTML = `<div class="product-result-item">Sin resultados.</div>`;
+    el.productSearchResults.innerHTML = `<p class="admin-hint">Sin resultados.</p>`;
     return;
   }
   el.productSearchResults.innerHTML = products
     .map(
       (p) => `
-        <div class="product-result-item" data-sku="${escapeHtml(p.sku)}">
-          <strong>${escapeHtml(p.name)}</strong>
-          <span>${escapeHtml(p.brand || 'Sin marca')} · ${escapeHtml(p.barcode || 'sin código')} · ${escapeHtml(p.category)}</span>
-        </div>`
+        <button type="button" class="product-list-card" data-sku="${escapeHtml(p.sku)}">
+          <img src="${p.image ? escapeHtml(p.image) : '../public/img/placeholder.svg'}" alt="" loading="lazy" />
+          <div class="product-list-card__body">
+            <strong>${escapeHtml(p.name)}</strong>
+            <span>${escapeHtml(p.brand || 'Sin marca')} · ${escapeHtml(p.barcode || 'sin código')}</span>
+            <span>${escapeHtml(p.category)}</span>
+          </div>
+        </button>`
     )
     .join('');
-  el.productSearchResults.querySelectorAll('.product-result-item[data-sku]').forEach((item) => {
+  el.productSearchResults.querySelectorAll('.product-list-card[data-sku]').forEach((item) => {
     item.addEventListener('click', () => selectProduct(item.dataset.sku));
   });
 }
@@ -247,10 +261,9 @@ async function selectProduct(sku) {
   try {
     const { product, images } = await api(`products/${encodeURIComponent(sku)}`);
     selectedProduct = product;
-    el.productSearchResults.innerHTML = '';
-    el.productSearchInput.value = '';
     renderSelectedProduct(product);
     renderHistory(images);
+    el.selectedProductCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
   } catch (e) {
     showToast(e.message, 'error');
   }

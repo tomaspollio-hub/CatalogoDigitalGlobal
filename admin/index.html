@@ -15,6 +15,32 @@
       <div class="admin-usage" id="usage-banner">Cargando uso de la API…</div>
     </header>
 
+    <section class="admin-panel">
+      <h2>Productos</h2>
+      <div class="field">
+        <label for="product-search-input">Buscar producto</label>
+        <div class="product-search-row">
+          <input id="product-search-input" type="text" placeholder="Nombre, SKU, código de barras o marca…" autocomplete="off" />
+          <select id="product-category-filter">
+            <option value="">Todas las categorías</option>
+          </select>
+          <select id="product-image-filter">
+            <option value="">Con o sin imagen</option>
+            <option value="false">Sin imagen</option>
+            <option value="true">Con imagen</option>
+          </select>
+        </div>
+      </div>
+      <p id="product-results-count" class="admin-hint"></p>
+      <div id="product-search-results" class="product-list-grid"></div>
+      <div id="selected-product-card" class="selected-product-card" hidden></div>
+    </section>
+
+    <section class="admin-panel" id="history-section" hidden>
+      <h2>Historial de imágenes de este producto</h2>
+      <div id="history-grid" class="history-grid"></div>
+    </section>
+
     <section class="admin-panel" id="pending-section" hidden>
       <h2>Pendientes de revisión (<span id="pending-count">0</span>)</h2>
       <p class="admin-hint">Los medicamentos no tienen casillero de selección — requieren revisión individual (confirmación obligatoria de laboratorio/concentración/presentación).</p>
@@ -24,28 +50,6 @@
         <button class="btn btn--success" id="pending-approve-selected" disabled>Aprobar seleccionadas (<span id="pending-selected-count">0</span>)</button>
       </div>
       <div id="pending-grid" class="history-grid"></div>
-    </section>
-
-    <section class="admin-panel">
-      <h2>1. Producto</h2>
-      <div class="field">
-        <label for="product-search-input">Buscar producto</label>
-        <div class="product-search-row">
-          <input id="product-search-input" type="text" placeholder="Nombre, SKU, código de barras o marca…" autocomplete="off" />
-          <select id="product-image-filter">
-            <option value="">Todos</option>
-            <option value="false">Sin imagen</option>
-            <option value="true">Con imagen</option>
-          </select>
-        </div>
-        <div id="product-search-results" class="product-search-results"></div>
-      </div>
-      <div id="selected-product-card" class="selected-product-card" hidden></div>
-    </section>
-
-    <section class="admin-panel" id="history-section" hidden>
-      <h2>Historial de imágenes de este producto</h2>
-      <div id="history-grid" class="history-grid"></div>
     </section>
   </div>
 

@@ -81,12 +81,12 @@ export async function getProductImagesForProduct(db, productId) {
   return results.map(rowToProductImage);
 }
 
-/** SKUs con al menos una imagen aprobada y marcada primaria — para el filtro "con/sin imagen" del admin. */
-export async function getApprovedPrimaryProductIds(db) {
+/** Miniatura de la imagen aprobada/primaria por producto — para el filtro y la grilla "con/sin imagen" del admin. */
+export async function getApprovedPrimaryThumbnails(db) {
   const { results } = await db
-    .prepare("SELECT DISTINCT product_id FROM product_images WHERE status = 'approved' AND is_primary = 1")
+    .prepare("SELECT product_id, thumbnail_storage_path FROM product_images WHERE status = 'approved' AND is_primary = 1")
     .all();
-  return new Set(results.map((r) => r.product_id));
+  return new Map(results.map((r) => [r.product_id, r.thumbnail_storage_path]));
 }
 
 /** Todas las imágenes esperando revisión humana, sin importar el producto — para el panel global de pendientes. */

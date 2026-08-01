@@ -456,7 +456,7 @@ function renderCheckoutForm(items) {
                 ({ product, qty }) => `
               <div class="confirm-row">
                 <span class="confirm-row__name">${escapeHtml(product.name)}</span>
-                <span class="confirm-row__qty">x${qty} <span class="confirm-row__unit">${escapeHtml(product.presentation)}</span></span>
+                <span class="confirm-row__qty">${qty} unidades <span class="confirm-row__unit">(${escapeHtml(product.presentation)})</span></span>
               </div>
             `
               )
@@ -490,6 +490,12 @@ function renderCheckoutForm(items) {
             <label class="form-field__label" for="f-telefono">Teléfono <span class="required">*</span></label>
             <input class="form-field__input" id="f-telefono" name="telefono" type="tel" required placeholder="Ej: 299 456-7890" />
           </div>
+          <div class="form-field">
+            <label class="form-field__label" for="f-cuit">CUIT / CUIL</label>
+            <input class="form-field__input" id="f-cuit" name="cuit" type="text" placeholder="Ej: 20-12345678-9" />
+          </div>
+        </div>
+        <div class="form-grid form-grid--2col">
           <div class="form-field">
             <label class="form-field__label" for="f-email">Email</label>
             <input class="form-field__input" id="f-email" name="email" type="email" placeholder="Ej: compras@empresa.com" />
@@ -532,6 +538,7 @@ function handleSubmitOrder() {
   const clientData = {
     nombre,
     empresa: form.empresa.value.trim(),
+    cuit: form.cuit.value.trim(),
     telefono,
     email: form.email.value.trim(),
     comentario: form.comentario.value.trim(),
@@ -557,6 +564,7 @@ function buildOrderText(items, client) {
   lines.push('*Datos del cliente*');
   lines.push(`Nombre: ${client.nombre}`);
   if (client.empresa) lines.push(`Empresa: ${client.empresa}`);
+  if (client.cuit) lines.push(`CUIT/CUIL: ${client.cuit}`);
   lines.push(`Teléfono: ${client.telefono}`);
   if (client.email) lines.push(`Email: ${client.email}`);
   if (client.comentario) lines.push(`Comentario: ${client.comentario}`);
@@ -567,7 +575,7 @@ function buildOrderText(items, client) {
     lines.push('');
     lines.push(displayCategory(category).toUpperCase());
     for (const { product, qty } of list) {
-      lines.push(`- ${product.name} (Cód. barras ${product.barcode}) x${qty} — ${product.presentation}`);
+      lines.push(`- ${product.name} (Cód. barras ${product.barcode}) — ${qty} unidades (${product.presentation})`);
     }
   }
 
@@ -678,7 +686,7 @@ function renderHistoryOrderHTML(order) {
             (i) => `
           <div class="history-row">
             <span class="history-row__name">${escapeHtml(i.name)}</span>
-            <span class="history-row__qty">x${i.qty} <span class="history-row__unit">${escapeHtml(i.presentation)}</span></span>
+            <span class="history-row__qty">${i.qty} unidades <span class="history-row__unit">(${escapeHtml(i.presentation)})</span></span>
           </div>
         `
           )
