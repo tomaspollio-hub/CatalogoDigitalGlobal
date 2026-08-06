@@ -275,15 +275,14 @@ const SORTERS = {
 /* ── Render: grid de productos ────────────────────────────────── */
 function filterProducts() {
   const query = normalize(searchQuery.trim());
+  const queryTokens = query.split(/\s+/).filter(Boolean);
   const filtered = products.filter((p) => {
     const matchesCategory = activeCategories.size === 0 || activeCategories.has(p.category);
     if (!matchesCategory) return false;
     if (!query) return true;
-    return (
-      normalize(p.name).includes(query) ||
-      normalize(p.sku).includes(query) ||
-      p.barcode.includes(query)
-    );
+    const name = normalize(p.name);
+    if (queryTokens.every((token) => name.includes(token))) return true;
+    return normalize(p.sku).includes(query) || p.barcode.includes(query);
   });
   return SORTERS[activeSort] ? [...filtered].sort(SORTERS[activeSort]) : filtered;
 }
@@ -775,6 +774,12 @@ function bindStaticEvents() {
   });
   el.searchInput.addEventListener('focus', () => renderSearchSuggestions());
   el.searchInput.addEventListener('blur', () => setTimeout(hideSuggestions, 100));
+  el.searchInput.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    hideSuggestions();
+    el.searchInput.blur();
+  });
 
   el.searchSuggestions.addEventListener('mousedown', (e) => {
     e.preventDefault();
