@@ -574,7 +574,7 @@ function buildOrderText(items, client) {
   lines.push('');
   lines.push('*Datos del cliente*');
   lines.push(`Nombre: ${client.nombre}`);
-  if (client.empresa) lines.push(`Empresa: ${client.empresa}`);
+  if (client.empresa) lines.push(`Empresa/Razón Social: ${client.empresa}`);
   if (client.cuit) lines.push(`CUIT/CUIL: ${client.cuit}`);
   lines.push(`Teléfono: ${client.telefono}`);
   if (client.email) lines.push(`Email: ${client.email}`);
@@ -586,7 +586,7 @@ function buildOrderText(items, client) {
     lines.push('');
     lines.push(displayCategory(category).toUpperCase());
     for (const { product, qty } of list) {
-      lines.push(`- ${product.name} (Cód. barras ${product.barcode}) — ${qty} unidades (${product.presentation})`);
+      lines.push(`- ${product.name} — ${qty} unidades (Cód. barras ${product.barcode})`);
     }
   }
 
